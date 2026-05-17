@@ -1,0 +1,2418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مغامرات الأمن السيبراني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --bg-dark: #0a0e27;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --font-family: 'Cairo', sans-serif;
+            --font-size-base: 18px;
+            --font-size-large: 24px;
+            --font-size-xlarge: 32px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Custom Background Image */
+        .custom-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: none;
+        }
+
+        .custom-bg.active {
+            display: block;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .progress-text {
+            position: fixed;
+            top: 12px;
+            left: 20px;
+            font-size: 14px;
+            color: var(--primary-color);
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        /* Score Display */
+        .score-display {
+            position: fixed;
+            top: 12px;
+            right: 20px;
+            font-size: 16px;
+            color: var(--accent-color);
+            z-index: 1000;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-icon {
+            font-size: 20px;
+        }
+
+        /* Settings Button */
+        .settings-btn {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 50px;
+            left: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: var(--bg-card);
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: var(--font-family);
+            font-weight: 600;
+            display: none;
+        }
+
+        .home-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .home-btn.visible {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+            min-height: 100vh;
+        }
+
+        /* Pages System */
+        .page {
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Page */
+        .home-page {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .game-logo {
+            font-size: 72px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .game-title {
+            font-size: var(--font-size-xlarge);
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-subtitle {
+            font-size: var(--font-size-large);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto 40px;
+        }
+
+        .menu-card {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-card:hover::before {
+            left: 100%;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .menu-icon {
+            font-size: 56px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .menu-title {
+            font-size: var(--font-size-large);
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .menu-desc {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Learning Slides */
+        .slide-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .slide-number {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .slide-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .slide-content {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            line-height: 1.9;
+            font-size: var(--font-size-base);
+        }
+
+        .slide-content h3 {
+            color: var(--primary-color);
+            font-size: 22px;
+            margin: 20px 0 15px;
+        }
+
+        .slide-content ul {
+            list-style: none;
+            padding-right: 20px;
+        }
+
+        .slide-content li {
+            position: relative;
+            padding: 10px 0;
+            padding-right: 25px;
+        }
+
+        .slide-content li::before {
+            content: '🔹';
+            position: absolute;
+            right: 0;
+            top: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
+            border-right: 4px solid var(--primary-color);
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border-right: 4px solid var(--accent-color);
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: var(--font-family);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .nav-btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #6d28d9);
+            color: white;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), #d97706);
+            color: white;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-disabled:hover {
+            transform: none;
+        }
+
+        /* Slide Indicators */
+        .slide-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .indicator.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .indicator.completed {
+            background: var(--success);
+        }
+
+        .indicator:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .quiz-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-dot.current {
+            background: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .quiz-dot.correct {
+            background: var(--success);
+        }
+
+        .quiz-dot.wrong {
+            background: var(--danger);
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--secondary-color);
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-item {
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-item:hover:not(.selected):not(.correct):not(.wrong) {
+            border-color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(-8px);
+        }
+
+        .option-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .option-item.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.2);
+            animation: pulse-success 0.5s ease;
+        }
+
+        .option-item.wrong {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.2);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse-success {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .option-item.selected .option-letter {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .option-item.correct .option-letter {
+            background: var(--success);
+            color: white;
+        }
+
+        .option-item.wrong .option-letter {
+            background: var(--danger);
+            color: white;
+        }
+
+        .feedback-message {
+            margin-top: 20px;
+            padding: 18px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback-message.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .feedback-message.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .feedback-message.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Results Page */
+        .results-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .results-icon {
+            font-size: 100px;
+            margin-bottom: 25px;
+            animation: bounceIn 1s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .results-title {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--accent-color), var(--danger));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .score-value {
+            font-size: 52px;
+            font-weight: 900;
+        }
+
+        .score-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .results-message {
+            font-size: 20px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 25px auto;
+        }
+
+        /* Settings Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f3a, #0a0e27);
+            border-radius: 25px;
+            padding: 35px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-modal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .setting-label {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--primary-color);
+        }
+
+        input[type="color"] {
+            width: 45px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+
+        select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-family: var(--font-family);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1f3a;
+            color: white;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-upload-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: var(--font-family);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .url-input {
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-family: var(--font-family);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .url-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .apply-btn {
+            padding: 12px 25px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: var(--font-family);
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 55px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 28px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: var(--primary-color);
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(27px);
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .audio-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-btn:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            transform: scale(1.1);
+        }
+
+        .audio-btn.muted {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 26px;
+            }
+
+            .game-logo {
+                font-size: 52px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-content {
+                padding: 25px;
+            }
+
+            .slide-title {
+                font-size: 24px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-content {
+                padding: 25px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .score-circle {
+                width: 140px;
+                height: 140px;
+            }
+
+            .score-value {
+                font-size: 40px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="particles" id="particles"></div>
+    <div class="custom-bg" id="customBg"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+
+    <!-- Progress Text -->
+    <div class="progress-text" id="progressText">التقدم: 0%</div>
+
+    <!-- Score Display -->
+    <div class="score-display">
+        <span class="score-icon">⭐</span>
+        <span id="scoreDisplay">0 نقطة</span>
+    </div>
+
+    <!-- Settings Button -->
+    <button class="settings-btn" onclick="openSettings()" title="الإعدادات">⚙️</button>
+
+    <!-- Home Button -->
+    <button class="home-btn" id="homeBtn" onclick="goHome()">
+        <span>🏠</span>
+        <span>الرئيسية</span>
+    </button>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="تشغيل/إيقاف الموسيقى">🎵</button>
+        <button class="audio-btn" id="volumeBtn" onclick="toggleMute()" title="كتم/تشغيل الصوت">🔊</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- HOME PAGE -->
+        <div class="page active" id="homePage">
+            <div class="home-page">
+                <div class="game-logo">🛡️</div>
+                <h1 class="game-title">مغامرات الأمن السيبراني</h1>
+                <p class="game-subtitle">رحلة تعليمية تفاعلية في عالم الحماية الرقمية</p>
+
+                <div class="menu-grid">
+                    <div class="menu-card" onclick="startLearning()">
+                        <span class="menu-icon">📚</span>
+                        <h3 class="menu-title">ابدأ التعلم</h3>
+                        <p class="menu-desc">استكشف 12 درساً تعليمياً في أساسيات الأمن السيبراني والحماية الرقمية</p>
+                    </div>
+
+                    <div class="menu-card" onclick="startQuiz()">
+                        <span class="menu-icon">🎯</span>
+                        <h3 class="menu-title">اختبر نفسك</h3>
+                        <p class="menu-desc">تحدَّ بـ 5 أسئلة تفاعلية لقياس معرفتك وفهمك للمحتوى</p>
+                    </div>
+
+                    <div class="menu-card" onclick="openSettings()">
+                        <span class="menu-icon">⚙️</span>
+                        <h3 class="menu-title">الإعدادات</h3>
+                        <p class="menu-desc">خصّص المظهر والخطوط والألوان والموسيقى حسب رغبتك</p>
+                    </div>
+
+                    <div class="menu-card" onclick="showProgress()">
+                        <span class="menu-icon">📊</span>
+                        <h3 class="menu-title">تقدمي</h3>
+                        <p class="menu-desc">تابع إنجازاتك وشاهد نقاطك وتحصيلك العلمي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEARNING SLIDES -->
+        <div class="page" id="learningPage">
+            <div class="slide-container">
+                <div class="slide-header">
+                    <span class="slide-number" id="slideNumber">الدرس 1 من 12</span>
+                    <h2 class="slide-title" id="slideTitle">عنوان الدرس</h2>
+                </div>
+
+                <div class="slide-content" id="slideContent">
+                    <!-- Content will be injected here -->
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn btn-secondary" id="prevBtn" onclick="prevSlide()">
+                        <span>→</span>
+                        <span>السابق</span>
+                    </button>
+                    <button class="nav-btn btn-primary" id="nextBtn" onclick="nextSlide()">
+                        <span>التالي</span>
+                        <span>←</span>
+                    </button>
+                </div>
+
+                <div class="slide-indicators" id="slideIndicators">
+                    <!-- Indicators will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ PAGE -->
+        <div class="page" id="quizPage">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <span class="slide-number">اختبار المعرفة</span>
+                    <h2 class="slide-title">اختبر فهمك للأمن السيبراني</h2>
+                    <div class="quiz-progress" id="quizProgress">
+                        <!-- Quiz dots will be generated here -->
+                    </div>
+                </div>
+
+                <div class="question-card" id="questionCard">
+                    <span class="question-number" id="questionNumber">السؤال 1 من 5</span>
+                    <p class="question-text" id="questionText">نص السؤال هنا</p>
+                    <ul class="options-list" id="optionsList">
+                        <!-- Options will be generated here -->
+                    </ul>
+                    <div class="feedback-message" id="feedbackMessage"></div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn btn-secondary" id="quizPrevBtn" onclick="prevQuestion()">
+                        <span>→</span>
+                        <span>السابق</span>
+                    </button>
+                    <button class="nav-btn btn-accent" id="quizNextBtn" onclick="nextQuestion()" disabled>
+                        <span>التالي</span>
+                        <span>←</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS PAGE -->
+        <div class="page" id="resultsPage">
+            <div class="results-container">
+                <div class="results-icon" id="resultsIcon">🏆</div>
+                <h2 class="results-title">أحسنت! لقد أكملت الاختبار</h2>
+                
+                <div class="score-circle">
+                    <span class="score-value" id="finalScore">0</span>
+                    <span class="score-label">من 100</span>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="correctCount">0</div>
+                        <div class="stat-label">إجابات صحيحة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="wrongCount">0</div>
+                        <div class="stat-label">إجابات خاطئة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPoints">0</div>
+                        <div class="stat-label">النقاط المكتسبة</div>
+                    </div>
+                </div>
+
+                <p class="results-message" id="resultsMessage">رسالة التشجيع هنا</p>
+
+                <div class="nav-buttons" style="justify-content: center;">
+                    <button class="nav-btn btn-primary" onclick="restartQuiz()">
+                        <span>🔄</span>
+                        <span>إعادة الاختبار</span>
+                    </button>
+                    <button class="nav-btn btn-secondary" onclick="goHome()">
+                        <span>🏠</span>
+                        <span>الصفحة الرئيسية</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS PAGE -->
+        <div class="page" id="progressPage">
+            <div class="results-container">
+                <div class="results-icon">📊</div>
+                <h2 class="results-title">تقدمك وإنجازاتك</h2>
+                
+                <div class="score-circle">
+                    <span class="score-value" id="totalScoreDisplay">0</span>
+                    <span class="score-label">نقطة إجمالية</span>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="lessonsCompleted">0</div>
+                        <div class="stat-label">دروس مكتملة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="quizzesTaken">0</div>
+                        <div class="stat-label">اختبارات مكتملة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="bestScore">0</div>
+                        <div class="stat-label">أفضل نتيجة</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">الدروس المكتملة:</h3>
+                    <div id="completedLessonsList" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+                </div>
+
+                <div class="nav-buttons" style="justify-content: center; margin-top: 30px;">
+                    <button class="nav-btn btn-primary" onclick="goHome()">
+                        <span>🏠</span>
+                        <span>العودة للرئيسية</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><span>⚙️</span> الإعدادات</h2>
+                <button class="close-modal" onclick="closeSettings()">✕</button>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div class="settings-section">
+                <h3 class="section-title"><span>🎨</span> المظهر والألوان</h3>
+                
+                <div class="setting-row">
+                    <label class="setting-label">اللون الأساسي</label>
+                    <div class="setting-control">
+                        <input type="color" id="primaryColor" value="#00d4ff" onchange="updateColors()">
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <label class="setting-label">اللون الثانوي</label>
+                    <div class="setting-control">
+                        <input type="color" id="secondaryColor" value="#7c3aed" onchange="updateColors()">
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <label class="setting-label">لون التمييز</label>
+                    <div class="setting-control">
+                        <input type="color" id="accentColor" value="#f59e0b" onchange="updateColors()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Font Settings -->
+            <div class="settings-section">
+                <h3 class="section-title"><span>🔤</span> الخطوط والنصوص</h3>
+                
+                <div class="setting-row">
+                    <label class="setting-label">نوع الخط</label>
+                    <div class="setting-control">
+                        <select id="fontFamily" onchange="updateFonts()">
+                            <option value="'Cairo', sans-serif">Cairo</option>
+                            <option value="'Tajawal', sans-serif">Tajawal</option>
+                            <option value="'Almarai', sans-serif">Almarai</option>
+                            <option value="'Noto Kufi Arabic', sans-serif">Noto Kufi Arabic</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <label class="setting-label">حجم الخط الأساسي</label>
+                    <div class="setting-control">
+                        <input type="range" id="fontSizeBase" min="14" max="24" value="18" onchange="updateFonts()">
+                        <span id="fontSizeValue">18px</span>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <label class="setting-label">حجم الخط الكبير</label>
+                    <div class="setting-control">
+                        <input type="range" id="fontSizeLarge" min="20" max="32" value="24" onchange="updateFonts()">
+                        <span id="fontSizeLargeValue">24px</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Background Settings -->
+            <div class="settings-section">
+                <h3 class="section-title"><span>🖼️</span> الخلفية</h3>
+                
+                <div class="setting-row">
+                    <label class="setting-label">الخلفية المتحركة</label>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="animatedBg" checked onchange="toggleAnimatedBg()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="setting-label">رفع صورة خلفية:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-upload-btn">
+                            <span>📁</span>
+                            <span>اختر صورة</span>
+                        </button>
+                        <input type="file" accept="image/*" onchange="uploadBackground(event)">
+                    </div>
+                    
+                    <label class="setting-label" style="margin-top: 15px;">أو أدخل رابط صورة:</label>
+                    <input type="text" class="url-input" id="bgUrlInput" placeholder="أدخل رابط الصورة هنا...">
+                    <button class="apply-btn" onclick="applyBackgroundUrl()">تطبيق الرابط</button>
+                    
+                    <button class="apply-btn" style="background: var(--danger);" onclick="removeCustomBg()" style="margin-top: 10px;">
+                        إزالة الخلفية المخصصة
+                    </button>
+                </div>
+            </div>
+
+            <!-- Audio Settings -->
+            <div class="settings-section">
+                <h3 class="section-title"><span>🎵</span> الصوت والموسيقى</h3>
+                
+                <div class="setting-row">
+                    <label class="setting-label">الموسيقى الخلفية</label>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="musicEnabled" checked onchange="toggleMusicSetting()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <label class="setting-label">مستوى الصوت</label>
+                    <div class="setting-control">
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="updateVolume()">
+                        <span id="volumeValue">50%</span>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="setting-label">رفع موسيقى مخصصة:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-upload-btn">
+                            <span>🎵</span>
+                            <span>اختر ملف صوتي</span>
+                        </button>
+                        <input type="file" accept="audio/*" onchange="uploadMusic(event)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset Settings -->
+            <div class="settings-section">
+                <button class="nav-btn btn-secondary" onclick="resetSettings()" style="width: 100%; justify-content: center;">
+                    <span>🔄</span>
+                    <span>إعادة ضبط الإعدادات الافتراضية</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleQkAZrTysqJxSgA=" type="audio/wav">
+    </audio>
+
+    <script>
+        // ==================== GAME STATE ====================
+        let gameState = {
+            currentSlide: 0,
+            currentQuestion: 0,
+            score: 0,
+            totalScore: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            completedSlides: [],
+            quizzesCompleted: 0,
+            bestScore: 0,
+            answers: [],
+            audioPlaying: false,
+            isMuted: false
+        };
+
+        // ==================== LEARNING CONTENT (TEMPLATE SYSTEM) ====================
+        const slidesData = [
+            {
+                title: "مقدمة في الأمن السيبراني",
+                content: `
+                    <h3>ما هو الأمن السيبراني؟</h3>
+                    <p>الأمن السيبراني هو ممارسة حماية الأنظمة والشبكات والبرامج من الهجمات الرقمية. هذه الهجمات تهدف عادةً إلى الوصول إلى المعلومات الحساسة أو تغييرها أو تدميرها أو ابتزاز المال من المستخدمين.</p>
+                    
+                    <div class="highlight-box">
+                        <strong>💡 هل تعلم؟</strong><br>
+                        يتم اختراق جهاز كمبيوتر كل 39 ثانية في جميع أنحاء العالم!
+                    </div>
+
+                    <h3>لماذا الأمن السيبراني مهم؟</h3>
+                    <ul>
+                        <li>حماية البيانات الشخصية والمعلومات الحساسة</li>
+                        <li>منع السرقة الإلكترونية والاحتيال</li>
+                        <li>حماية الخصوصية على الإنترنت</li>
+                        <li>ضمان استمرارية الأعمال والخدمات</li>
+                    </ul>
+                `
+            },
+            {
+                title: "أنواع التهديدات السيبرانية",
+                content: `
+                    <h3>التهديدات الشائعة:</h3>
+                    <ul>
+                        <li><strong>البرمجيات الخبيثة (Malware)</strong> - برامج ضارة تصيب الأجهزة</li>
+                        <li><strong>التصيد الاحتيالي (Phishing)</strong> - محاولات سرقة المعلومات عبر رسائل مزيفة</li>
+                        <li>برامج الفدية (Ransomware) - تشفير الملفات وطلب الفدية</li>
+                        <li>هجمات حرفية الاعتماد (DDoS) - إغراق المواقع بالطلبات</li>
+                        <li>برامج التجسس (Spyware) - مراقبة نشاط المستخدم</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ تحذير!</strong><br>
+                        احذر من الروابط غير المعروفة والملفات المرفقة من مرسلين مجهولين!
+                    </div>
+                `
+            },
+            {
+                title: "كلمات المرور القوية",
+                content: `
+                    <h3>خصائص كلمة المرور القوية:</h3>
+                    <ul>
+                        <li>طول لا يقل عن 12 حرفاً</li>
+                        <li>تحتوي على أحرف كبيرة وصغيرة</li>
+                        <li>تشمل أرقاماً ورموزاً خاصة (!@#$%^&*)</li>
+                        <li>ليست كلمة موجودة في القاموس</li>
+                        <li>فريدة لكل حساب</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 نصيحة ذهبية:</strong><br>
+                        استخدم عبارة مرور (Passphrase) مثل: "القطار-يطير-في-السماء-الزرقاء-2024!"
+                    </div>
+
+                    <h3>أدوات مساعدة:</h3>
+                    <ul>
+                        <li>مديرو كلمات المرور (LastPass, Bitwarden)</li>
+                        <li>المصادقة الثنائية (2FA)</li>
+                        <li>المصادقة البيومترية</li>
+                    </ul>
+                `
+            },
+            {
+                title: "المصادقة الثنائية (2FA)",
+                content: `
+                    <h3>ما هي المصادقة الثنائية؟</h3>
+                    <p>طبقة أمان إضافية تتطلب نوعين مختلفين من الهوية للوصول إلى حسابك.</p>
+
+                    <h3>أنواع المصادقة الثنائية:</h3>
+                    <ul>
+                        <li><strong>رمز عبر SMS</strong> - رسالة نصية على هاتفك</li>
+                        <li><strong>تطبيق مصادقة</strong> - Google Authenticator, Authy</li>
+                        <li><strong>مفتاح أمان فعلي</strong> - YubiKey</li>
+                        <li><strong>البصمة أو الوجه</strong> - المصادقة البيومترية</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ إحصائية مهمة:</strong><br>
+                        المصادقة الثنائية تمنع 99.9% من هجمات التصيد الآلية!
+                    </div>
+                `
+            },
+            {
+                title: "التجسس الإلكتروني",
+                content: `
+                    <h3>ما هو التجسس الإلكتروني؟</h3>
+                    <p>هو جمع معلومات سرية أو حساسة عن طريق وسائل تقنية دون علم الضحية.</p>
+
+                    <h3>علامات تعرضك للتجسس:</h3>
+                    <ul>
+                        <li>بطء مفاجئ في الجهاز</li>
+                        <li>استهلاك غير طبيعي للبيانات</li>
+                        <li>ظهور برامج غير معروفة</li>
+                        <li>تغيير الإعدادات بدون سبب</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ كيف تحمي نفسك:</strong><br>
+                        • استخدم برنامج مضاد للفيروسات<br>
+                        • حدّث نظام التشغيل باستمرار<br>
+                        • تجنب الشبكات العامة للحساسية
+                    </div>
+                `
+            },
+            {
+                title: "الشبكات الآمنة وغير الآمنة",
+                content: `
+                    <h3>الشبكات العامة (WiFi العام):</h3>
+                    <ul>
+                        <li>المقاهي والمطارات ومراكز التسوق</li>
+                        <li>سهلة الاختراق من قبل المخترقين</li>
+                        <li>يمكن اعتراض البيانات المرسلة</li>
+                    </ul>
+
+                    <h3>كيف تستخدم الشبكات العامة بأمان:</h3>
+                    <ul>
+                        <li>استخدم VPN (شبكة خاصة افتراضية)</li>
+                        <li>تجنب الوصول للحسابات البنكية</li>
+                        <li>تأكد من تشفير الموقع (HTTPS)</li>
+                        <li>أوقف مشاركة الملفات</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 تذكر دائماً:</strong><br>
+                        لا تقم أبداً بمعاملات مالية على شبكة WiFi عامة!
+                    </div>
+                `
+            },
+            {
+                title: "البريد الإلكتروني الآمن",
+                content: `
+                    <h3>تهديدات البريد الإلكتروني:</h3>
+                    <ul>
+                        <li><strong>التصيد الاحتيالي (Phishing)</strong></li>
+                        <li>البريد المزعج (Spam)</li>
+                        <li>البرمجيات الخبيثة في المرفقات</li>
+                        <li>محاولات الهندسة الاجتماعية</li>
+                    </ul>
+
+                    <h3>علامات البريد المشبوه:</h3>
+                    <ul>
+                        <li>عنوان مرسل غير معروف أو مشابه للموثوق</li>
+                        <li>طلب معلومات شخصية أو مالية عاجل</li>
+                        <li>روابط مشبوهة أو أخطاء إملائية</li>
+                        <li>ضغط نفسي لاتخاذ قرار فوري</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ قاعدة ذهبية:</strong><br>
+                        البنوك والشركات الكبرى لا تطلب أبداً كلمات المرور عبر البريد!
+                    </div>
+                `
+            },
+            {
+                title: "التسوق الإلكتروني الآمن",
+                content: `
+                    <h3>علامات الموقع الموثوق:</h3>
+                    <ul>
+                        <li>قفل HTTPS أخضر في شريط العنوان</li>
+                        <li>سياسة خصوصية واضحة</li>
+                        <li>معلومات اتصال واضحة</li>
+                        <li>آراء ومراجعات حقيقية</li>
+                    </ul>
+
+                    <h3>نصائح للتسوق الآمن:</h3>
+                    <ul>
+                        <li>استخدم بطاقات مسبقة الدفع</li>
+                        <li>تفحص كشوف الحساب بانتظام</li>
+                        <li>تجنب الحفظ التلقائي لبيانات البطاقة</li>
+                        <li>استخدم حساب PayPal أو وسطاء آمنين</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 تأكد دائماً من:</strong><br>
+                        وجود https:// وليس http:// فقط قبل إدخال بياناتك!
+                    </div>
+                `
+            },
+            {
+                title: "وسائل التواصل الاجتماعي",
+                content: `
+                    <h3>مخاطر وسائل التواصل:</h3>
+                    <ul>
+                        <li>سرقة الهوية</li>
+                        <li>التنمر الإلكتروني</li>
+                        <li>الاحتيال والعلاقات المزيفة</li>
+                        <li>تتبع الموقع والنشاط</li>
+                    </ul>
+
+                    <h3>إعدادات الخصوصية المهمة:</h3>
+                    <ul>
+                        <li>جعل الحساب خاصاً إذا أمكن</li>
+                        <li>مراجعة من يمكنه رؤية منشوراتك</li>
+                        <li>تعطيل تحديد الموقع تلقائياً</li>
+                        <li>مراجعة التطبيحات المرتبطة</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚧️ تذكر:</strong><br>
+                        ما تنشره على الإنترنت يبقى هناك للأبد! فكر قبل النشر.
+                    </div>
+                `
+            },
+            {
+                title: "الحماية من الفيروسات",
+                content: `
+                    <h3>أنواع البرمجيات الخبيثة:</h3>
+                    <ul>
+                        <li><strong>الفيروسات</strong> - تنتشر وتتكاثر</li>
+                        <li><strong>حصان طروادة</strong> - يتخفى كبرنامج شرعي</li>
+                        <li><strong>الدودة</strong> - تنتشر عبر الشبكات</li>
+                        <li><strong>برامج الفدية</strong> - تشفر ملفاتك</li>
+                    </ul>
+
+                    <h3>كيف تحمي جهازك:</h3>
+                    <ul>
+                        <li>ثبت برنامج مضاد للفيروسات موثوق</li>
+                        <li>حدث نظام التشغيل والبرامج</li>
+                        <li>لا تفتح مرفقات مشبوهة</li>
+                        <li>عمل نسخ احتياطية منتظمة</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ برامج مضادة موثوقة:</strong><br>
+                        Windows Defender, Kaspersky, Malwarebytes, Avast
+                    </div>
+                `
+            },
+            {
+                title: "النسخ الاحتياطي والاسترداد",
+                content: `
+                    <h3>لماذا النسخ الاحتياطي مهم؟</h3>
+                    <ul>
+                        <li>الحماية من برامج الفدية</li>
+                        <li>استرداد البيانات بعد الفقدان</li>
+                        <li>الانتقال لجهاز جديد بسهولة</li>
+                        <li>الحماية من أعطال الأجهزة</li>
+                    </ul>
+
+                    <h3>قاعدة 3-2-1 للنسخ الاحتياطي:</h3>
+                    <ul>
+                        <li><strong>3 نسخ</strong> من بياناتك</li>
+                        <li><strong>2 نوعين</strong> مختلفين من التخزين</li>
+                        <li><strong>1 نسخة</strong> خارج الموقع (سحابي)</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>☁️ حلول سحابية موثوقة:</strong><br>
+                        Google Drive, Dropbox, OneDrive, iCloud
+                    </div>
+                `
+            },
+            {
+                title: "أفضل الممارسات اليومية",
+                content: `
+                    <h3>قائمة الأمان اليومية:</h3>
+                    <ul>
+                        <li>حدث جميع برامجك بانتظام</li>
+                        <li>استخدم كلمة مرور مختلفة لكل حساب</li>
+                        <li>فعّل المصادقة الثنائية везде</li>
+                        <li>لا تفتح روابط أو مرفقات مشبوهة</li>
+                        <li>استخدم VPN على الشبكات العامة</li>
+                        <li>راجع كشوفك البنكية أسبوعياً</li>
+                        <li>سجل خروجك من الأجهزة المشتركة</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>🎯 القاعدة الذهبية:</strong><br>
+                        الوقاية خير من العلاج! استثمر دقيقة يومياً في أمانك الرقمي.
+                    </div>
+
+                    <h3>🎉 مبروك! لقد أكملت جميع الدروس!</h3>
+                    <p>الآن يمكنك اختبار معرفتك بالانتقال للاختبار.</p>
+                `
+            }
+        ];
+
+        // ==================== QUIZ QUESTIONS (TEMPLATE SYSTEM) ====================
+        const quizData = [
+            {
+                question: "ما هو أفضل طول لكلمة المرور القوية؟",
+                options: ["6 أحرف", "8 أحرف", "12 حرفاً على الأقل", "4 أحرف"],
+                correct: 2,
+                explanation: "كلمات المرور القوية يجب أن تكون 12 حرفاً على الأقل لتكون صعبة التخمين!"
+            },
+            {
+                question: "ماذا يعني HTTPS في عنوان الموقع؟",
+                options: ["موقع سريع", "موقع مشفر وآمن", "موقع مجاني", "موقع حديث"],
+                correct: 1,
+                explanation: "HTTPS يعني أن الاتصال بينك والموقع مشفر وآمن!"
+            },
+            {
+                question: "ما هو التصيد الاحتيالي (Phishing)؟",
+                options: ["نوع من الأسماك", "محاولة سرقة المعلومات via رسائل مزيفة", "لعبة أونلاين", "برنامج حماية"],
+                correct: 1,
+                explanation: "التصيد الاحتيالي هو محاولة لسرقة معلوماتك عبر رسائل تبدو رسمية!"
+            },
+            {
+                question: "ما هي أفضل ممارسة لكلمات المرور؟",
+                options: ["نفس كلمة لكل حساب", "كلمة بسيطة سهلة التذكر", "كلمة فريدة لكل حساب مع مدير كلمات", "كتابتها على ورقة"],
+                correct: 2,
+                explanation: "استخدم كلمة مرور فريدة لكل حساب مع مدير كلمات مرور موثوق!"
+            },
+            {
+                question: "لماذا المصادقة الثنائية (2FA) مهمة؟",
+                options: ["تجعل تسجيل الدخول أبطأ", "توفر طبقة حماية إضافية", "غير ضرورية", "للعرض فقط"],
+                correct: 1,
+                explanation: "المصادقة الثنائية توفر طبقة أمان إضافية حتى لو سرقت كلمة المرور!"
+            }
+        ];
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            generateSlideIndicators();
+            generateQuizDots();
+            loadSettings();
+            updateUI();
+            
+            console.log('Game initialized successfully!');
+        });
+
+        // Create animated particles
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ==================== NAVIGATION FUNCTIONS ====================
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show target page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Show/hide home button
+            const homeBtn = document.getElementById('homeBtn');
+            if (pageId === 'homePage') {
+                homeBtn.classList.remove('visible');
+            } else {
+                homeBtn.classList.add('visible');
+            }
+
+            console.log('Navigated to:', pageId);
+        }
+
+        function goHome() {
+            showPage('homePage');
+            updateProgress();
+        }
+
+        function startLearning() {
+            gameState.currentSlide = 0;
+            showPage('learningPage');
+            renderSlide();
+            updateSlideIndicators();
+            updateProgress();
+        }
+
+        function startQuiz() {
+            gameState.currentQuestion = 0;
+            gameState.answers = [];
+            gameState.correctAnswers = 0;
+            gameState.wrongAnswers = 0;
+            showPage('quizPage');
+            renderQuestion();
+            updateQuizDots();
+            updateProgress();
+        }
+
+        function showProgress() {
+            document.getElementById('totalScoreDisplay').textContent = gameState.totalScore;
+            document.getElementById('lessonsCompleted').textContent = gameState.completedSlides.length;
+            document.getElementById('quizzesTaken').textContent = gameState.quizzesCompleted;
+            document.getElementById('bestScore').textContent = gameState.bestScore;
+
+            // Show completed lessons
+            const listContainer = document.getElementById('completedLessonsList');
+            listContainer.innerHTML = '';
+            for (let i = 0; i < gameState.completedSlides.length; i++) {
+                const badge = document.createElement('span');
+                badge.style.cssText = 'padding: 8px 15px; background: var(--success); border-radius: 20px; font-size: 14px;';
+                badge.textContent = `الدرس ${gameState.completedSlides[i] + 1}`;
+                listContainer.appendChild(badge);
+            }
+
+            showPage('progressPage');
+        }
+
+        // ==================== SLIDE FUNCTIONS ====================
+        function renderSlide() {
+            const slide = slidesData[gameState.currentSlide];
+            document.getElementById('slideNumber').textContent = `الدرس ${gameState.currentSlide + 1} من ${slidesData.length}`;
+            document.getElementById('slideTitle').textContent = slide.title;
+            document.getElementById('slideContent').innerHTML = slide.content;
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.visibility = gameState.currentSlide === 0 ? 'hidden' : 'visible';
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (gameState.currentSlide === slidesData.length - 1) {
+                nextBtn.innerHTML = '<span>🎯</span><span>ابدأ الاختبار</span>';
+                nextBtn.onclick = startQuiz;
+            } else {
+                nextBtn.innerHTML = '<span>التالي</span><span>←</span>';
+                nextBtn.onclick = nextSlide;
+            }
+
+            // Mark slide as completed
+            if (!gameState.completedSlides.includes(gameState.currentSlide)) {
+                gameState.completedSlides.push(gameState.currentSlide);
+            }
+
+            updateSlideIndicators();
+            updateProgress();
+        }
+
+        function nextSlide() {
+            if (gameState.currentSlide < slidesData.length - 1) {
+                gameState.currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (gameState.currentSlide > 0) {
+                gameState.currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            gameState.currentSlide = index;
+            renderSlide();
+        }
+
+        function generateSlideIndicators() {
+            const container = document.getElementById('slideIndicators');
+            container.innerHTML = '';
+            for (let i = 0; i < slidesData.length; i++) {
+                const indicator = document.createElement('button');
+                indicator.className = 'indicator';
+                indicator.onclick = () => goToSlide(i);
+                indicator.title = `الدرس ${i + 1}`;
+                container.appendChild(indicator);
+            }
+        }
+
+        function updateSlideIndicators() {
+            const indicators = document.querySelectorAll('.slide-indicators .indicator');
+            indicators.forEach((ind, idx) => {
+                ind.classList.remove('active', 'completed');
+                if (idx === gameState.currentSlide) {
+                    ind.classList.add('active');
+                } else if (gameState.completedSlides.includes(idx)) {
+                    ind.classList.add('completed');
+                }
+            });
+        }
+
+        // ==================== QUIZ FUNCTIONS ====================
+        function renderQuestion() {
+            const q = quizData[gameState.currentQuestion];
+            document.getElementById('questionNumber').textContent = `السؤال ${gameState.currentQuestion + 1} من ${quizData.length}`;
+            document.getElementById('questionText').textContent = q.question;
+
+            const optionsList = document.getElementById('optionsList');
+            optionsList.innerHTML = '';
+
+            const letters = ['أ', 'ب', 'ج', 'د'];
+            q.options.forEach((opt, idx) => {
+                const li = document.createElement('li');
+                li.className = 'option-item';
+                li.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt}</span>`;
+                li.onclick = () => selectOption(idx);
+                li.dataset.index = idx;
+                optionsList.appendChild(li);
+            });
+
+            // Hide feedback and disable next button
+            document.getElementById('feedbackMessage').classList.remove('show', 'correct', 'wrong');
+            document.getElementById('quizNextBtn').disabled = true;
+
+            // Update prev button visibility
+            document.getElementById('quizPrevBtn').style.visibility = gameState.currentQuestion === 0 ? 'hidden' : 'visible';
+
+            updateQuizDots();
+        }
+
+        function selectOption(index) {
+            // Prevent re-selection
+            const options = document.querySelectorAll('.option-item');
+            if (Array.from(options).some(opt => opt.classList.contains('correct') || opt.classList.contains('wrong'))) {
+                return;
+            }
+
+            const q = quizData[gameState.currentQuestion];
+            const selectedOption = options[index];
+            selectedOption.classList.add('selected');
+
+            // Show feedback
+            const feedback = document.getElementById('feedbackMessage');
+            feedback.classList.add('show');
+
+            if (index === q.correct) {
+                selectedOption.classList.add('correct');
+                feedback.classList.add('correct');
+                feedback.textContent = `✅ إجابة صحيحة! ${q.explanation}`;
+                gameState.correctAnswers++;
+                gameState.score += 20;
+            } else {
+                selectedOption.classList.add('wrong');
+                options[q.correct].classList.add('correct');
+                feedback.classList.add('wrong');
+                feedback.textContent = `❌ إجابة خاطئة! ${q.explanation}`;
+                gameState.wrongAnswers++;
+            }
+
+            gameState.answers.push({
+                question: gameState.currentQuestion,
+                selected: index,
+                correct: index === q.correct
+            });
+
+            // Enable next button
+            document.getElementById('quizNextBtn').disabled = false;
+            updateQuizDots();
+            updateScoreDisplay();
+        }
+
+        function nextQuestion() {
+            if (gameState.currentQuestion < quizData.length - 1) {
+                gameState.currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (gameState.currentQuestion > 0) {
+                gameState.currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function generateQuizDots() {
+            const container = document.getElementById('quizProgress');
+            container.innerHTML = '';
+            for (let i = 0; i < quizData.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'quiz-dot';
+                container.appendChild(dot);
+            }
+        }
+
+        function updateQuizDots() {
+            const dots = document.querySelectorAll('.quiz-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.remove('current', 'correct', 'wrong');
+                if (idx === gameState.currentQuestion) {
+                    dot.classList.add('current');
+                } else if (idx < gameState.currentQuestion || gameState.answers[idx]) {
+                    if (gameState.answers[idx] && gameState.answers[idx].correct) {
+                        dot.classList.add('correct');
+                    } else if (gameState.answers[idx]) {
+                        dot.classList.add('wrong');
+                    }
+                }
+            });
+        }
+
+        // ==================== RESULTS FUNCTIONS ====================
+        function showResults() {
+            const percentage = (gameState.correctAnswers / quizData.length) * 100;
+            const pointsEarned = gameState.correctAnswers * 20;
+
+            gameState.totalScore += pointsEarned;
+            gameState.quizzesCompleted++;
+            if (percentage > gameState.bestScore) {
+                gameState.bestScore = percentage;
+            }
+
+            document.getElementById('finalScore').textContent = Math.round(percentage);
+            document.getElementById('correctCount').textContent = gameState.correctAnswers;
+            document.getElementById('wrongCount').textContent = gameState.wrongAnswers;
+            document.getElementById('totalPoints').textContent = pointsEarned;
+
+            // Set icon and message based on score
+            const icon = document.getElementById('resultsIcon');
+            const message = document.getElementById('resultsMessage');
+
+            if (percentage >= 80) {
+                icon.textContent = '🏆';
+                message.textContent = 'مذهل! لديك فهم ممتاز للأمن السيبراني. أنت محمي بشكل جيد!';
+            } else if (percentage >= 60) {
+                icon.textContent = '🌟';
+                message.textContent = 'جيد جداً! لديك معرفة جيدة، لكن هناك مجال للتحسين.';
+            } else if (percentage >= 40) {
+                icon.textContent = '📚';
+                message.textContent = 'ليس سيئاً! نراجع الدروس ونحاول مرة أخرى.';
+            } else {
+                icon.textContent = '💪';
+                message.textContent = 'لا بأس! التعلم يستغرق وقتاً. راجع الدروس وحاول مرة أخرى.';
+            }
+
+            showPage('resultsPage');
+            updateScoreDisplay();
+            saveProgress();
+        }
+
+        function restartQuiz() {
+            gameState.score = 0;
+            gameState.correctAnswers = 0;
+            gameState.wrongAnswers = 0;
+            startQuiz();
+        }
+
+        // ==================== UI UPDATE FUNCTIONS ====================
+        function updateProgress() {
+            const totalItems = slidesData.length + quizData.length;
+            const completed = gameState.completedSlides.length + (gameState.currentQuestion > 0 ? gameState.currentQuestion : 0);
+            const percentage = Math.round((completed / totalItems) * 100);
+
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `التقدم: ${percentage}%`;
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('scoreDisplay').textContent = `${gameState.totalScore + gameState.score} نقطة`;
+        }
+
+        function updateUI() {
+            updateProgress();
+            updateScoreDisplay();
+        }
+
+        // ==================== SETTINGS FUNCTIONS ====================
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+            saveSettings();
+        }
+
+        function updateColors() {
+            const primary = document.getElementById('primaryColor').value;
+            const secondary = document.getElementById('secondaryColor').value;
+            const accent = document.getElementById('accentColor').value;
+
+            document.documentElement.style.setProperty('--primary-color', primary);
+            document.documentElement.style.setProperty('--secondary-color', secondary);
+            document.documentElement.style.setProperty('--accent-color', accent);
+
+            saveSettings();
+        }
+
+        function updateFonts() {
+            const fontFamily = document.getElementById('fontFamily').value;
+            const fontSizeBase = document.getElementById('fontSizeBase').value;
+            const fontSizeLarge = document.getElementById('fontSizeLarge').value;
+
+            document.documentElement.style.setProperty('--font-family', fontFamily);
+            document.documentElement.style.setProperty('--font-size-base', fontSizeBase + 'px');
+            document.documentElement.style.setProperty('--font-size-large', fontSizeLarge + 'px');
+
+            document.getElementById('fontSizeValue').textContent = fontSizeBase + 'px';
+            document.getElementById('fontSizeLargeValue').textContent = fontSizeLarge + 'px';
+
+            saveSettings();
+        }
+
+        function toggleAnimatedBg() {
+            const enabled = document.getElementById('animatedBg').checked;
+            const particles = document.getElementById('particles');
+            const animatedBg = document.querySelector('.animated-bg');
+            
+            particles.style.display = enabled ? 'block' : 'none';
+            animatedBg.style.display = enabled ? 'block' : 'none';
+
+            saveSettings();
+        }
+
+        function uploadBackground(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    applyCustomBackground(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function applyBackgroundUrl() {
+            const url = document.getElementById('bgUrlInput').value.trim();
+            if (url) {
+                applyCustomBackground(url);
+            }
+        }
+
+        function applyCustomBackground(url) {
+            const customBg = document.getElementById('customBg');
+            customBg.style.backgroundImage = `url('${url}')`;
+            customBg.classList.add('active');
+            localStorage.setItem('customBgUrl', url);
+        }
+
+        function removeCustomBg() {
+            const customBg = document.getElementById('customBg');
+            customBg.classList.remove('active');
+            customBg.style.backgroundImage = '';
+            localStorage.removeItem('customBgUrl');
+            document.getElementById('bgUrlInput').value = '';
+        }
+
+        function toggleMusicSetting() {
+            const enabled = document.getElementById('musicEnabled').checked;
+            if (!enabled) {
+                stopAudio();
+            }
+            saveSettings();
+        }
+
+        function updateVolume() {
+            const volume = document.getElementById('volumeSlider').value;
+            const audio = document.getElementById('bgMusic');
+            audio.volume = volume / 100;
+            document.getElementById('volumeValue').textContent = volume + '%';
+            saveSettings();
+        }
+
+        function uploadMusic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const audio = document.getElementById('bgMusic');
+                audio.src = url;
+                if (gameState.audioPlaying) {
+                    audio.play();
+                }
+            }
+        }
+
+        function resetSettings() {
+            localStorage.removeItem('gameSettings');
+            location.reload();
+        }
+
+        // ==================== AUDIO FUNCTIONS ====================
+        function toggleAudio() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('audioToggle');
+
+            if (gameState.audioPlaying) {
+                audio.pause();
+                btn.textContent = '🔇';
+                gameState.audioPlaying = false;
+            } else {
+                audio.play().catch(e => console.log('Audio play failed:', e));
+                btn.textContent = '🎵';
+                gameState.audioPlaying = true;
+            }
+        }
+
+        function toggleMute() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('volumeBtn');
+
+            if (gameState.isMuted) {
+                audio.muted = false;
+                btn.textContent = '🔊';
+                btn.classList.remove('muted');
+                gameState.isMuted = false;
+            } else {
+                audio.muted = true;
+                btn.textContent = '🔇';
+                btn.classList.add('muted');
+                gameState.isMuted = true;
+            }
+        }
+
+        function stopAudio() {
+            const audio = document.getElementById('bgMusic');
+            audio.pause();
+            audio.currentTime = 0;
+            gameState.audioPlaying = false;
+            document.getElementById('audioToggle').textContent = '🔇';
+        }
+
+        // ==================== STORAGE FUNCTIONS ====================
+        function saveSettings() {
+            const settings = {
+                primaryColor: document.getElementById('primaryColor').value,
+                secondaryColor: document.getElementById('secondaryColor').value,
+                accentColor: document.getElementById('accentColor').value,
+                fontFamily: document.getElementById('fontFamily').value,
+                fontSizeBase: document.getElementById('fontSizeBase').value,
+                fontSizeLarge: document.getElementById('fontSizeLarge').value,
+                animatedBg: document.getElementById('animatedBg').checked,
+                musicEnabled: document.getElementById('musicEnabled').checked,
+                volume: document.getElementById('volumeSlider').value
+            };
+            localStorage.setItem('gameSettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('gameSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                
+                document.getElementById('primaryColor').value = settings.primaryColor || '#00d4ff';
+                document.getElementById('secondaryColor').value = settings.secondaryColor || '#7c3aed';
+                document.getElementById('accentColor').value = settings.accentColor || '#f59e0b';
+                document.getElementById('fontFamily').value = settings.fontFamily || "'Cairo', sans-serif";
+                document.getElementById('fontSizeBase').value = settings.fontSizeBase || 18;
+                document.getElementById('fontSizeLarge').value = settings.fontSizeLarge || 24;
+                document.getElementById('animatedBg').checked = settings.animatedBg !== false;
+                document.getElementById('musicEnabled').checked = settings.musicEnabled !== false;
+                document.getElementById('volumeSlider').value = settings.volume || 50;
+
+                updateColors();
+                updateFonts();
+                updateVolume();
+
+                // Load custom background
+                const customBgUrl = localStorage.getItem('customBgUrl');
+                if (customBgUrl) {
+                    applyCustomBackground(customBgUrl);
+                }
+            }
+        }
+
+        function saveProgress() {
+            const progress = {
+                totalScore: gameState.totalScore,
+                completedSlides: gameState.completedSlides,
+                quizzesCompleted: gameState.quizzesCompleted,
+                bestScore: gameState.bestScore
+            };
+            localStorage.setItem('gameProgress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('gameProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                gameState.totalScore = progress.totalScore || 0;
+                gameState.completedSlides = progress.completedSlides || [];
+                gameState.quizzesCompleted = progress.quizzesCompleted || 0;
+                gameState.bestScore = progress.bestScore || 0;
+            }
+        }
+
+        // Load saved progress on init
+        loadProgress();
+    </script>
+</body>
+</html>
