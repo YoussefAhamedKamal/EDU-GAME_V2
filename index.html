@@ -23,69 +23,77 @@
             --success: #10b981;
             --danger: #ef4444;
             --font-family: 'Cairo', sans-serif;
-            --font-size-base: 18px;
-            --font-size-large: 24px;
-            --font-size-xlarge: 32px;
+            --font-size-base: 15px;
+            --font-size-large: 19px;
+            --font-size-xlarge: 26px;
         }
 
-        body {
+        /* ===== GENIALLY DIMENSIONS - FIXED ===== */
+        html, body {
+            width: 1200px;
+            height: 675px;
+            overflow: hidden;
             font-family: var(--font-family);
             background: var(--bg-dark);
             color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated Background */
+        .main-container {
+            width: 1200px;
+            height: 675px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background */
         .animated-bg {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: 0;
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
         }
 
         .particles {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
             overflow: hidden;
+            pointer-events: none;
         }
 
         .particle {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             background: var(--primary-color);
             border-radius: 50%;
-            animation: float 15s infinite;
-            opacity: 0.6;
+            animation: float 18s infinite;
+            opacity: 0.4;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+            0%, 100% { transform: translateY(675px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-50px) rotate(720deg); opacity: 0; }
         }
 
-        /* Custom Background Image */
         .custom-bg {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             display: none;
         }
 
@@ -95,156 +103,219 @@
 
         /* Progress Bar */
         .progress-container {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
+            height: 4px;
             background: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+            z-index: 100;
         }
 
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             transition: width 0.5s ease;
-            border-radius: 0 3px 3px 0;
         }
 
-        .progress-text {
-            position: fixed;
-            top: 12px;
-            left: 20px;
-            font-size: 14px;
-            color: var(--primary-color);
-            z-index: 1000;
-            font-weight: 600;
+        /* Top Bar */
+        .top-bar {
+            position: absolute;
+            top: 6px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
         }
 
-        /* Score Display */
         .score-display {
-            position: fixed;
-            top: 12px;
-            right: 20px;
-            font-size: 16px;
+            font-size: 13px;
             color: var(--accent-color);
-            z-index: 1000;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
         }
 
-        .score-icon {
-            font-size: 20px;
+        .progress-text {
+            font-size: 11px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
-        /* Settings Button */
-        .settings-btn {
-            position: fixed;
-            top: 50px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
+        /* Controls - Top Right */
+        .controls-container {
+            position: absolute;
+            top: 30px;
+            right: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--bg-card);
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
-            font-size: 20px;
+            font-size: 14px;
             cursor: pointer;
-            z-index: 1000;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .settings-btn:hover {
-            transform: rotate(90deg) scale(1.1);
+        .control-btn:hover {
+            transform: scale(1.1);
             background: var(--primary-color);
             color: var(--bg-dark);
         }
 
-        /* Home Button */
+        .control-btn.audio-muted {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Home Button - Top Left */
         .home-btn {
-            position: fixed;
-            top: 50px;
-            left: 20px;
-            padding: 10px 20px;
-            border-radius: 25px;
+            position: absolute;
+            top: 30px;
+            left: 12px;
+            padding: 7px 14px;
+            border-radius: 18px;
             background: var(--bg-card);
             border: 2px solid var(--secondary-color);
             color: var(--secondary-color);
-            font-size: 14px;
+            font-size: 12px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 100;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             font-family: var(--font-family);
             font-weight: 600;
             display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .home-btn.visible {
+            display: flex;
         }
 
         .home-btn:hover {
             background: var(--secondary-color);
             color: white;
-            transform: translateY(-2px);
         }
 
-        .home-btn.visible {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 40px;
-            min-height: 100vh;
-        }
-
-        /* Pages System */
-        .page {
+        /* Share Button */
+        .share-btn {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 7px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--success), #059669);
+            border: none;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+            font-weight: 600;
             display: none;
-            animation: fadeInUp 0.6s ease;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .share-btn.visible {
+            display: flex;
+        }
+
+        .share-btn:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 5px 18px rgba(16, 185, 129, 0.4);
+        }
+
+        /* ==================== PAGES SYSTEM ==================== */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 10;
         }
 
         .page.active {
             display: block;
+            animation: fadeInUp 0.4s ease;
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Home Page */
-        .home-page {
+        /* Page Content Wrapper - Prevents overlap with indicators */
+        .page-content-wrapper {
+            position: absolute;
+            top: 55px;
+            left: 20px;
+            right: 20px;
+            bottom: 70px; /* Space for indicators + nav buttons */
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 15px;
+        }
+
+        .page-content-wrapper::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .page-content-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .page-content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        /* HOME PAGE */
+        .home-page-content {
             text-align: center;
-            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
         }
 
         .game-logo {
-            font-size: 72px;
-            margin-bottom: 20px;
+            font-size: 52px;
+            margin-bottom: 12px;
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-10px); }
         }
 
         .game-title {
             font-size: var(--font-size-xlarge);
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -254,70 +325,52 @@
         .game-subtitle {
             font-size: var(--font-size-large);
             color: var(--text-secondary);
-            margin-bottom: 40px;
+            margin-bottom: 22px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 900px;
-            margin: 0 auto 40px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 700px;
         }
 
         .menu-card {
             background: var(--bg-card);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 35px 25px;
+            border-radius: 14px;
+            padding: 20px 16px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .menu-card:hover::before {
-            left: 100%;
         }
 
         .menu-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px);
             border-color: var(--primary-color);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
         }
 
         .menu-icon {
-            font-size: 56px;
-            margin-bottom: 15px;
+            font-size: 38px;
+            margin-bottom: 8px;
             display: block;
         }
 
         .menu-title {
-            font-size: var(--font-size-large);
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             color: var(--primary-color);
         }
 
         .menu-desc {
-            font-size: var(--font-size-base);
+            font-size: 12px;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* Learning Slides */
+        /* LEARNING SLIDES */
         .slide-container {
             max-width: 900px;
             margin: 0 auto;
@@ -325,90 +378,146 @@
 
         .slide-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 14px;
         }
 
         .slide-number {
             display: inline-block;
-            padding: 8px 20px;
+            padding: 4px 14px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 20px;
-            font-size: 14px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .slide-title {
-            font-size: 32px;
+            font-size: 22px;
             font-weight: 800;
-            margin-bottom: 10px;
             color: var(--text-primary);
         }
 
         .slide-content {
             background: var(--bg-card);
-            border-radius: 25px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 22px 25px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-            line-height: 1.9;
+            line-height: 1.65;
             font-size: var(--font-size-base);
+            min-height: 280px;
         }
 
         .slide-content h3 {
             color: var(--primary-color);
-            font-size: 22px;
-            margin: 20px 0 15px;
+            font-size: 17px;
+            margin: 12px 0 8px;
+        }
+
+        .slide-content p {
+            margin-bottom: 10px;
         }
 
         .slide-content ul {
             list-style: none;
-            padding-right: 20px;
+            padding-right: 16px;
         }
 
         .slide-content li {
             position: relative;
-            padding: 10px 0;
-            padding-right: 25px;
+            padding: 6px 0;
+            padding-right: 18px;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .slide-content li::before {
             content: '🔹';
             position: absolute;
             right: 0;
-            top: 10px;
+            top: 6px;
+            font-size: 9px;
         }
 
         .highlight-box {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
-            border-right: 4px solid var(--primary-color);
-            padding: 20px 25px;
-            border-radius: 10px;
-            margin: 20px 0;
+            border-right: 3px solid var(--primary-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 13px;
         }
 
         .warning-box {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
-            border-right: 4px solid var(--accent-color);
-            padding: 20px 25px;
-            border-radius: 10px;
-            margin: 20px 0;
+            border-right: 3px solid var(--accent-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 13px;
         }
 
-        /* Navigation Buttons */
+        /* Slide Indicators - Positioned to not overlap content */
+        .slide-indicators-wrapper {
+            position: absolute;
+            bottom: 52px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            max-width: 80%;
+        }
+
+        .slide-indicators {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            flex-shrink: 0;
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.45);
+            transform: scale(1.15);
+        }
+
+        .indicator.active {
+            background: var(--primary-color);
+            transform: scale(1.25);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .indicator.completed {
+            background: var(--success);
+        }
+
+        /* Navigation Buttons - Fixed Bottom */
         .nav-buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            right: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            z-index: 100;
         }
 
         .nav-btn {
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-size: 17px;
+            padding: 10px 24px;
+            border-radius: 22px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -416,60 +525,37 @@
             border: none;
             display: flex;
             align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
+            gap: 7px;
         }
 
-        .nav-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
+        .nav-btn:hover:not(.btn-disabled) {
+            transform: translateY(-2px) scale(1.02);
         }
 
-        .nav-btn:active::after {
-            width: 300px;
-            height: 300px;
+        .nav-btn:active:not(.btn-disabled) {
+            transform: scale(0.97);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), #0891b2);
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
-        }
-
-        .btn-secondary {
+        /* السابق على اليسار */
+        .btn-prev {
             background: linear-gradient(135deg, var(--secondary-color), #6d28d9);
             color: white;
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 5px 18px rgba(124, 58, 237, 0.3);
+            order: 1;
         }
 
-        .btn-secondary:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(124, 58, 237, 0.4);
+        /* التالي على اليمين */
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            color: white;
+            box-shadow: 0 5px 18px rgba(0, 212, 255, 0.3);
+            order: 2;
         }
 
-        .btn-accent {
+        .btn-quiz {
             background: linear-gradient(135deg, var(--accent-color), #d97706);
             color: white;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
-        }
-
-        .btn-accent:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 5px 18px rgba(245, 158, 11, 0.3);
         }
 
         .btn-disabled {
@@ -479,65 +565,27 @@
             opacity: 0.5;
         }
 
-        .btn-disabled:hover {
-            transform: none;
-        }
-
-        /* Slide Indicators */
-        .slide-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .indicator {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .indicator.active {
-            background: var(--primary-color);
-            transform: scale(1.2);
-            box-shadow: 0 0 15px var(--primary-color);
-        }
-
-        .indicator.completed {
-            background: var(--success);
-        }
-
-        .indicator:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
-        }
-
-        /* Quiz Section */
+        /* QUIZ SECTION */
         .quiz-container {
-            max-width: 800px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
         .quiz-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 14px;
         }
 
         .quiz-progress {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 9px;
+            margin-top: 10px;
         }
 
         .quiz-dot {
-            width: 16px;
-            height: 16px;
+            width: 13px;
+            height: 13px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
@@ -545,7 +593,7 @@
 
         .quiz-dot.current {
             background: var(--primary-color);
-            box-shadow: 0 0 15px var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
             transform: scale(1.2);
         }
 
@@ -559,54 +607,54 @@
 
         .question-card {
             background: var(--bg-card);
-            border-radius: 25px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 22px 24px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
+            margin-bottom: 12px;
         }
 
         .question-number {
             display: inline-block;
-            padding: 6px 16px;
+            padding: 4px 12px;
             background: var(--secondary-color);
-            border-radius: 15px;
-            font-size: 14px;
+            border-radius: 10px;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .question-text {
-            font-size: 22px;
+            font-size: 17px;
             font-weight: 700;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            line-height: 1.5;
+            margin-bottom: 16px;
         }
 
         .options-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 9px;
         }
 
         .option-item {
-            padding: 18px 25px;
+            padding: 11px 15px;
             background: rgba(255, 255, 255, 0.03);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 11px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 17px;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .option-item:hover:not(.selected):not(.correct):not(.wrong) {
             border-color: var(--primary-color);
             background: rgba(0, 212, 255, 0.1);
-            transform: translateX(-8px);
+            transform: translateX(-4px);
         }
 
         .option-item.selected {
@@ -628,24 +676,25 @@
 
         @keyframes pulse-success {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            50% { transform: scale(1.01); }
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
         }
 
         .option-letter {
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
+            font-size: 12px;
             flex-shrink: 0;
         }
 
@@ -665,11 +714,12 @@
         }
 
         .feedback-message {
-            margin-top: 20px;
-            padding: 18px 25px;
-            border-radius: 12px;
+            margin-top: 12px;
+            padding: 10px 15px;
+            border-radius: 9px;
             font-weight: 600;
             text-align: center;
+            font-size: 12px;
             display: none;
         }
 
@@ -690,26 +740,30 @@
             color: var(--danger);
         }
 
-        /* Results Page */
-        .results-container {
+        /* RESULTS PAGE */
+        .results-page-content {
             text-align: center;
-            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
         }
 
         .results-icon {
-            font-size: 100px;
-            margin-bottom: 25px;
-            animation: bounceIn 1s ease;
+            font-size: 64px;
+            margin-bottom: 12px;
+            animation: bounceIn 0.8s ease;
         }
 
         @keyframes bounceIn {
             0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.12); }
             100% { transform: scale(1); }
         }
 
         .results-title {
-            font-size: 38px;
+            font-size: 26px;
             font-weight: 900;
             margin-bottom: 15px;
             background: linear-gradient(135deg, var(--accent-color), var(--danger));
@@ -719,85 +773,86 @@
         }
 
         .score-circle {
-            width: 180px;
-            height: 180px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 30px auto;
-            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.3);
-            position: relative;
-        }
-
-        .score-circle::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            z-index: -1;
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            margin: 15px auto;
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.3);
         }
 
         .score-value {
-            font-size: 52px;
+            font-size: 38px;
             font-weight: 900;
         }
 
         .score-label {
-            font-size: 16px;
+            font-size: 12px;
             opacity: 0.9;
         }
 
         .results-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 600px;
-            margin: 30px auto;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            max-width: 450px;
+            margin: 15px auto;
         }
 
         .stat-card {
             background: var(--bg-card);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 11px;
+            padding: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .stat-value {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 800;
             color: var(--primary-color);
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 10px;
             color: var(--text-secondary);
-            margin-top: 5px;
+            margin-top: 3px;
         }
 
         .results-message {
-            font-size: 20px;
+            font-size: 14px;
             color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 600px;
-            margin: 25px auto;
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 12px auto;
         }
 
-        /* Settings Modal */
+        .results-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        /* PROGRESS PAGE */
+        .progress-page-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+        }
+
+        /* SETTINGS MODAL */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 2000;
             display: none;
             justify-content: center;
@@ -818,47 +873,41 @@
 
         .modal-content {
             background: linear-gradient(135deg, #1a1f3a, #0a0e27);
-            border-radius: 25px;
-            padding: 35px;
-            max-width: 650px;
+            border-radius: 18px;
+            padding: 25px;
+            max-width: 520px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 82vh;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .modal-title {
-            font-size: 26px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .close-modal {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -872,60 +921,60 @@
         }
 
         .settings-section {
-            margin-bottom: 30px;
+            margin-bottom: 18px;
         }
 
         .section-title {
-            font-size: 19px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--accent-color);
-            margin-bottom: 18px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 7px;
         }
 
         .setting-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .setting-label {
-            font-size: 16px;
+            font-size: 13px;
             color: var(--text-primary);
         }
 
         .setting-control {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         input[type="range"] {
-            width: 120px;
+            width: 90px;
             accent-color: var(--primary-color);
         }
 
         input[type="color"] {
-            width: 45px;
-            height: 35px;
+            width: 35px;
+            height: 26px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             background: none;
         }
 
         select {
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 7px 10px;
+            border-radius: 7px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             font-family: var(--font-family);
-            font-size: 15px;
+            font-size: 12px;
             cursor: pointer;
         }
 
@@ -937,7 +986,7 @@
         .file-upload {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 7px;
         }
 
         .file-input-wrapper {
@@ -957,61 +1006,59 @@
         }
 
         .file-upload-btn {
-            padding: 12px 25px;
+            padding: 9px 16px;
             background: linear-gradient(135deg, var(--primary-color), #0891b2);
             color: white;
-            border-radius: 10px;
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             font-family: var(--font-family);
+            font-size: 12px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
         }
 
         .file-upload-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
         }
 
         .url-input {
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 7px 10px;
+            border-radius: 7px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             font-family: var(--font-family);
             width: 100%;
-            margin-top: 10px;
-        }
-
-        .url-input::placeholder {
-            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 6px;
         }
 
         .apply-btn {
-            padding: 12px 25px;
+            padding: 9px 16px;
             background: var(--success);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             font-family: var(--font-family);
-            margin-top: 10px;
+            font-size: 12px;
+            margin-top: 6px;
             transition: all 0.3s ease;
         }
 
         .apply-btn:hover {
             background: #059669;
-            transform: translateY(-2px);
         }
 
         .toggle-switch {
             position: relative;
-            width: 55px;
-            height: 28px;
+            width: 44px;
+            height: 22px;
         }
 
         .toggle-switch input {
@@ -1025,15 +1072,15 @@
             cursor: pointer;
             inset: 0;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 28px;
+            border-radius: 22px;
             transition: 0.3s;
         }
 
         .toggle-slider::before {
             content: '';
             position: absolute;
-            height: 22px;
-            width: 22px;
+            height: 16px;
+            width: 16px;
             left: 3px;
             bottom: 3px;
             background: white;
@@ -1046,326 +1093,252 @@
         }
 
         .toggle-switch input:checked + .toggle-slider::before {
-            transform: translateX(27px);
+            transform: translateX(22px);
         }
 
-        /* Audio Controls */
-        .audio-controls {
+        /* Share Modal */
+        .share-modal-overlay {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .audio-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 2px solid var(--primary-color);
+        .share-modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .share-modal {
+            background: linear-gradient(135deg, #1a1f3a, #0a0e27);
+            border-radius: 18px;
+            padding: 26px;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .share-modal h3 {
             color: var(--primary-color);
-            font-size: 18px;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .share-score-display {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin: 12px 0;
+        }
+
+        .share-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .share-option-btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 6px;
         }
 
-        .audio-btn:hover {
-            background: var(--primary-color);
-            color: var(--bg-dark);
-            transform: scale(1.1);
+        .share-option-btn:hover {
+            transform: translateY(-3px);
         }
 
-        .audio-btn.muted {
-            border-color: var(--danger);
-            color: var(--danger);
+        .share-twitter { background: #1DA1F2; }
+        .share-facebook { background: #4267B2; }
+        .share-whatsapp { background: #25D366; }
+        .share-copy { background: var(--secondary-color); }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 22px;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 3000;
+            transition: transform 0.3s ease;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .game-title {
-                font-size: 26px;
-            }
-
-            .game-logo {
-                font-size: 52px;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .slide-content {
-                padding: 25px;
-            }
-
-            .slide-title {
-                font-size: 24px;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-
-            .nav-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .modal-content {
-                padding: 25px;
-            }
-
-            .question-text {
-                font-size: 18px;
-            }
-
-            .score-circle {
-                width: 140px;
-                height: 140px;
-            }
-
-            .score-value {
-                font-size: 40px;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-color);
+        .copy-notification.show {
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    <div class="particles" id="particles"></div>
-    <div class="custom-bg" id="customBg"></div>
+    <div class="main-container">
+        <!-- Background -->
+        <div class="animated-bg"></div>
+        <div class="particles" id="particles"></div>
+        <div class="custom-bg" id="customBg"></div>
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
-    </div>
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
 
-    <!-- Progress Text -->
-    <div class="progress-text" id="progressText">التقدم: 0%</div>
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="score-display"><span>⭐</span><span id="scoreDisplay">0 نقطة</span></div>
+            <div class="progress-text" id="progressText">التقدم: 0%</div>
+        </div>
 
-    <!-- Score Display -->
-    <div class="score-display">
-        <span class="score-icon">⭐</span>
-        <span id="scoreDisplay">0 نقطة</span>
-    </div>
+        <!-- Controls -->
+        <div class="controls-container">
+            <button class="control-btn" onclick="openSettings()" title="الإعدادات">⚙️</button>
+            <button class="control-btn" id="audioToggle" onclick="toggleAudio()" title="الموسيقى">🎵</button>
+            <button class="control-btn" id="volumeBtn" onclick="toggleMute()" title="الصوت">🔊</button>
+        </div>
 
-    <!-- Settings Button -->
-    <button class="settings-btn" onclick="openSettings()" title="الإعدادات">⚙️</button>
+        <!-- Home Button -->
+        <button class="home-btn" id="homeBtn" onclick="goHome()"><span>🏠</span><span>الرئيسية</span></button>
 
-    <!-- Home Button -->
-    <button class="home-btn" id="homeBtn" onclick="goHome()">
-        <span>🏠</span>
-        <span>الرئيسية</span>
-    </button>
+        <!-- Share Button -->
+        <button class="share-btn" id="shareBtn" onclick="openShareModal()"><span>📤</span><span>مشاركة النتيجة</span></button>
 
-    <!-- Audio Controls -->
-    <div class="audio-controls">
-        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="تشغيل/إيقاف الموسيقى">🎵</button>
-        <button class="audio-btn" id="volumeBtn" onclick="toggleMute()" title="كتم/تشغيل الصوت">🔊</button>
-    </div>
-
-    <!-- Main Container -->
-    <div class="container">
-        
-        <!-- HOME PAGE -->
+        <!-- ==================== HOME PAGE ==================== -->
         <div class="page active" id="homePage">
-            <div class="home-page">
-                <div class="game-logo">🛡️</div>
-                <h1 class="game-title">مغامرات الأمن السيبراني</h1>
-                <p class="game-subtitle">رحلة تعليمية تفاعلية في عالم الحماية الرقمية</p>
-
-                <div class="menu-grid">
-                    <div class="menu-card" onclick="startLearning()">
-                        <span class="menu-icon">📚</span>
-                        <h3 class="menu-title">ابدأ التعلم</h3>
-                        <p class="menu-desc">استكشف 12 درساً تعليمياً في أساسيات الأمن السيبراني والحماية الرقمية</p>
-                    </div>
-
-                    <div class="menu-card" onclick="startQuiz()">
-                        <span class="menu-icon">🎯</span>
-                        <h3 class="menu-title">اختبر نفسك</h3>
-                        <p class="menu-desc">تحدَّ بـ 5 أسئلة تفاعلية لقياس معرفتك وفهمك للمحتوى</p>
-                    </div>
-
-                    <div class="menu-card" onclick="openSettings()">
-                        <span class="menu-icon">⚙️</span>
-                        <h3 class="menu-title">الإعدادات</h3>
-                        <p class="menu-desc">خصّص المظهر والخطوط والألوان والموسيقى حسب رغبتك</p>
-                    </div>
-
-                    <div class="menu-card" onclick="showProgress()">
-                        <span class="menu-icon">📊</span>
-                        <h3 class="menu-title">تقدمي</h3>
-                        <p class="menu-desc">تابع إنجازاتك وشاهد نقاطك وتحصيلك العلمي</p>
+            <div class="page-content-wrapper">
+                <div class="home-page-content">
+                    <div class="game-logo">🛡️</div>
+                    <h1 class="game-title">مغامرات الأمن السيبراني</h1>
+                    <p class="game-subtitle">رحلة تعليمية تفاعلية في عالم الحماية الرقمية</p>
+                    <div class="menu-grid">
+                        <div class="menu-card" onclick="startLearning()">
+                            <span class="menu-icon">📚</span>
+                            <h3 class="menu-title">ابدأ التعلم</h3>
+                            <p class="menu-desc">استكشف 12 درساً تعليمياً في أساسيات الأمن السيبراني</p>
+                        </div>
+                        <div class="menu-card" onclick="startQuiz()">
+                            <span class="menu-icon">🎯</span>
+                            <h3 class="menu-title">اختبر نفسك</h3>
+                            <p class="menu-desc">تحدَّ بـ 5 أسئلة تفاعلية لقياس معرفتك</p>
+                        </div>
+                        <div class="menu-card" onclick="openSettings()">
+                            <span class="menu-icon">⚙️</span>
+                            <h3 class="menu-title">الإعدادات</h3>
+                            <p class="menu-desc">خصّص المظهر والألوان والموسيقى</p>
+                        </div>
+                        <div class="menu-card" onclick="showProgress()">
+                            <span class="menu-icon">📊</span>
+                            <h3 class="menu-title">تقدمي</h3>
+                            <p class="menu-desc">تابع إنجازاتك ونقاطك</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- LEARNING SLIDES -->
+        <!-- ==================== LEARNING PAGE ==================== -->
         <div class="page" id="learningPage">
-            <div class="slide-container">
-                <div class="slide-header">
-                    <span class="slide-number" id="slideNumber">الدرس 1 من 12</span>
-                    <h2 class="slide-title" id="slideTitle">عنوان الدرس</h2>
+            <div class="page-content-wrapper">
+                <div class="slide-container">
+                    <div class="slide-header">
+                        <span class="slide-number" id="slideNumber">الدرس 1 من 12</span>
+                        <h2 class="slide-title" id="slideTitle">عنوان الدرس</h2>
+                    </div>
+                    <div class="slide-content" id="slideContent"></div>
                 </div>
+            </div>
 
-                <div class="slide-content" id="slideContent">
-                    <!-- Content will be injected here -->
-                </div>
+            <!-- Indicators - Outside content wrapper -->
+            <div class="slide-indicators-wrapper">
+                <div class="slide-indicators" id="slideIndicators"></div>
+            </div>
 
-                <div class="nav-buttons">
-                    <button class="nav-btn btn-secondary" id="prevBtn" onclick="prevSlide()">
-                        <span>→</span>
-                        <span>السابق</span>
-                    </button>
-                    <button class="nav-btn btn-primary" id="nextBtn" onclick="nextSlide()">
-                        <span>التالي</span>
-                        <span>←</span>
-                    </button>
-                </div>
-
-                <div class="slide-indicators" id="slideIndicators">
-                    <!-- Indicators will be generated here -->
-                </div>
+            <!-- Nav Buttons -->
+            <div class="nav-buttons">
+                <button class="nav-btn btn-prev" id="prevBtn" onclick="prevSlide()"><span>→</span><span>السابق</span></button>
+                <button class="nav-btn btn-next" id="nextBtn" onclick="nextSlide()"><span>التالي</span><span>←</span></button>
             </div>
         </div>
 
-        <!-- QUIZ PAGE -->
+        <!-- ==================== QUIZ PAGE ==================== -->
         <div class="page" id="quizPage">
-            <div class="quiz-container">
-                <div class="quiz-header">
-                    <span class="slide-number">اختبار المعرفة</span>
-                    <h2 class="slide-title">اختبر فهمك للأمن السيبراني</h2>
-                    <div class="quiz-progress" id="quizProgress">
-                        <!-- Quiz dots will be generated here -->
+            <div class="page-content-wrapper">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <span class="slide-number">اختبار المعرفة</span>
+                        <h2 class="slide-title">اختبر فهمك للأمن السيبراني</h2>
+                        <div class="quiz-progress" id="quizProgress"></div>
+                    </div>
+                    <div class="question-card" id="questionCard">
+                        <span class="question-number" id="questionNumber">السؤال 1 من 5</span>
+                        <p class="question-text" id="questionText"></p>
+                        <ul class="options-list" id="optionsList"></ul>
+                        <div class="feedback-message" id="feedbackMessage"></div>
                     </div>
                 </div>
-
-                <div class="question-card" id="questionCard">
-                    <span class="question-number" id="questionNumber">السؤال 1 من 5</span>
-                    <p class="question-text" id="questionText">نص السؤال هنا</p>
-                    <ul class="options-list" id="optionsList">
-                        <!-- Options will be generated here -->
-                    </ul>
-                    <div class="feedback-message" id="feedbackMessage"></div>
-                </div>
-
-                <div class="nav-buttons">
-                    <button class="nav-btn btn-secondary" id="quizPrevBtn" onclick="prevQuestion()">
-                        <span>→</span>
-                        <span>السابق</span>
-                    </button>
-                    <button class="nav-btn btn-accent" id="quizNextBtn" onclick="nextQuestion()" disabled>
-                        <span>التالي</span>
-                        <span>←</span>
-                    </button>
-                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn btn-prev" id="quizPrevBtn" onclick="prevQuestion()"><span>→</span><span>السابق</span></button>
+                <button class="nav-btn btn-quiz" id="quizNextBtn" onclick="nextQuestion()" disabled><span>التالي</span><span>←</span></button>
             </div>
         </div>
 
-        <!-- RESULTS PAGE -->
+        <!-- ==================== RESULTS PAGE ==================== -->
         <div class="page" id="resultsPage">
-            <div class="results-container">
-                <div class="results-icon" id="resultsIcon">🏆</div>
-                <h2 class="results-title">أحسنت! لقد أكملت الاختبار</h2>
-                
-                <div class="score-circle">
-                    <span class="score-value" id="finalScore">0</span>
-                    <span class="score-label">من 100</span>
-                </div>
-
-                <div class="results-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="correctCount">0</div>
-                        <div class="stat-label">إجابات صحيحة</div>
+            <div class="page-content-wrapper">
+                <div class="results-page-content">
+                    <div class="results-icon" id="resultsIcon">🏆</div>
+                    <h2 class="results-title">أحسنت! لقد أكملت الاختبار</h2>
+                    <div class="score-circle">
+                        <span class="score-value" id="finalScore">0</span>
+                        <span class="score-label">من 100</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="wrongCount">0</div>
-                        <div class="stat-label">إجابات خاطئة</div>
+                    <div class="results-stats">
+                        <div class="stat-card"><div class="stat-value" id="correctCount">0</div><div class="stat-label">صحيحة</div></div>
+                        <div class="stat-card"><div class="stat-value" id="wrongCount">0</div><div class="stat-label">خاطئة</div></div>
+                        <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">نقاط</div></div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalPoints">0</div>
-                        <div class="stat-label">النقاط المكتسبة</div>
+                    <p class="results-message" id="resultsMessage"></p>
+                    <div class="results-buttons">
+                        <button class="nav-btn btn-next" onclick="restartQuiz()">🔄 إعادة الاختبار</button>
+                        <button class="nav-btn btn-prev" onclick="goHome()">🏠 الرئيسية</button>
                     </div>
-                </div>
-
-                <p class="results-message" id="resultsMessage">رسالة التشجيع هنا</p>
-
-                <div class="nav-buttons" style="justify-content: center;">
-                    <button class="nav-btn btn-primary" onclick="restartQuiz()">
-                        <span>🔄</span>
-                        <span>إعادة الاختبار</span>
-                    </button>
-                    <button class="nav-btn btn-secondary" onclick="goHome()">
-                        <span>🏠</span>
-                        <span>الصفحة الرئيسية</span>
-                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- PROGRESS PAGE -->
+        <!-- ==================== PROGRESS PAGE ==================== -->
         <div class="page" id="progressPage">
-            <div class="results-container">
-                <div class="results-icon">📊</div>
-                <h2 class="results-title">تقدمك وإنجازاتك</h2>
-                
-                <div class="score-circle">
-                    <span class="score-value" id="totalScoreDisplay">0</span>
-                    <span class="score-label">نقطة إجمالية</span>
-                </div>
-
-                <div class="results-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="lessonsCompleted">0</div>
-                        <div class="stat-label">دروس مكتملة</div>
+            <div class="page-content-wrapper">
+                <div class="progress-page-content">
+                    <div class="results-icon">📊</div>
+                    <h2 class="results-title">تقدمك وإنجازاتك</h2>
+                    <div class="score-circle">
+                        <span class="score-value" id="totalScoreDisplay">0</span>
+                        <span class="score-label">نقطة إجمالية</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="quizzesTaken">0</div>
-                        <div class="stat-label">اختبارات مكتملة</div>
+                    <div class="results-stats">
+                        <div class="stat-card"><div class="stat-value" id="lessonsCompleted">0</div><div class="stat-label">دروس مكتملة</div></div>
+                        <div class="stat-card"><div class="stat-value" id="quizzesTaken">0</div><div class="stat-label">اختبارات</div></div>
+                        <div class="stat-card"><div class="stat-value" id="bestScore">0%</div><div class="stat-label">أفضل نتيجة</div></div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="bestScore">0</div>
-                        <div class="stat-label">أفضل نتيجة</div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">الدروس المكتملة:</h3>
-                    <div id="completedLessonsList" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
-                </div>
-
-                <div class="nav-buttons" style="justify-content: center; margin-top: 30px;">
-                    <button class="nav-btn btn-primary" onclick="goHome()">
-                        <span>🏠</span>
-                        <span>العودة للرئيسية</span>
-                    </button>
+                    <button class="nav-btn btn-next" onclick="goHome()" style="margin-top:12px;">🏠 العودة للرئيسية</button>
                 </div>
             </div>
         </div>
@@ -1378,115 +1351,68 @@
                 <h2 class="modal-title"><span>⚙️</span> الإعدادات</h2>
                 <button class="close-modal" onclick="closeSettings()">✕</button>
             </div>
-
-            <!-- Appearance Settings -->
             <div class="settings-section">
-                <h3 class="section-title"><span>🎨</span> المظهر والألوان</h3>
-                
+                <h3 class="section-title"><span>🎨</span> الألوان</h3>
                 <div class="setting-row">
                     <label class="setting-label">اللون الأساسي</label>
-                    <div class="setting-control">
-                        <input type="color" id="primaryColor" value="#00d4ff" onchange="updateColors()">
-                    </div>
+                    <input type="color" id="primaryColor" value="#00d4ff" onchange="updateColors()">
                 </div>
-
                 <div class="setting-row">
                     <label class="setting-label">اللون الثانوي</label>
-                    <div class="setting-control">
-                        <input type="color" id="secondaryColor" value="#7c3aed" onchange="updateColors()">
-                    </div>
+                    <input type="color" id="secondaryColor" value="#7c3aed" onchange="updateColors()">
                 </div>
-
                 <div class="setting-row">
                     <label class="setting-label">لون التمييز</label>
-                    <div class="setting-control">
-                        <input type="color" id="accentColor" value="#f59e0b" onchange="updateColors()">
-                    </div>
+                    <input type="color" id="accentColor" value="#f59e0b" onchange="updateColors()">
                 </div>
             </div>
-
-            <!-- Font Settings -->
             <div class="settings-section">
-                <h3 class="section-title"><span>🔤</span> الخطوط والنصوص</h3>
-                
+                <h3 class="section-title"><span>🔤</span> الخطوط</h3>
                 <div class="setting-row">
                     <label class="setting-label">نوع الخط</label>
-                    <div class="setting-control">
-                        <select id="fontFamily" onchange="updateFonts()">
-                            <option value="'Cairo', sans-serif">Cairo</option>
-                            <option value="'Tajawal', sans-serif">Tajawal</option>
-                            <option value="'Almarai', sans-serif">Almarai</option>
-                            <option value="'Noto Kufi Arabic', sans-serif">Noto Kufi Arabic</option>
-                            <option value="Arial, sans-serif">Arial</option>
-                        </select>
-                    </div>
+                    <select id="fontFamily" onchange="updateFonts()">
+                        <option value="'Cairo', sans-serif">Cairo</option>
+                        <option value="'Tajawal', sans-serif">Tajawal</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                    </select>
                 </div>
-
                 <div class="setting-row">
-                    <label class="setting-label">حجم الخط الأساسي</label>
+                    <label class="setting-label">حجم الخط</label>
                     <div class="setting-control">
-                        <input type="range" id="fontSizeBase" min="14" max="24" value="18" onchange="updateFonts()">
-                        <span id="fontSizeValue">18px</span>
-                    </div>
-                </div>
-
-                <div class="setting-row">
-                    <label class="setting-label">حجم الخط الكبير</label>
-                    <div class="setting-control">
-                        <input type="range" id="fontSizeLarge" min="20" max="32" value="24" onchange="updateFonts()">
-                        <span id="fontSizeLargeValue">24px</span>
+                        <input type="range" id="fontSizeBase" min="13" max="19" value="15" onchange="updateFonts()">
+                        <span id="fontSizeValue">15px</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Background Settings -->
             <div class="settings-section">
                 <h3 class="section-title"><span>🖼️</span> الخلفية</h3>
-                
                 <div class="setting-row">
-                    <label class="setting-label">الخلفية المتحركة</label>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="animatedBg" checked onchange="toggleAnimatedBg()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
+                    <label class="setting-label">خلفية متحركة</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="animatedBg" checked onchange="toggleAnimatedBg()">
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
-
                 <div class="file-upload">
                     <label class="setting-label">رفع صورة خلفية:</label>
                     <div class="file-input-wrapper">
-                        <button class="file-upload-btn">
-                            <span>📁</span>
-                            <span>اختر صورة</span>
-                        </button>
+                        <button class="file-upload-btn">📁 اختر صورة</button>
                         <input type="file" accept="image/*" onchange="uploadBackground(event)">
                     </div>
-                    
-                    <label class="setting-label" style="margin-top: 15px;">أو أدخل رابط صورة:</label>
-                    <input type="text" class="url-input" id="bgUrlInput" placeholder="أدخل رابط الصورة هنا...">
-                    <button class="apply-btn" onclick="applyBackgroundUrl()">تطبيق الرابط</button>
-                    
-                    <button class="apply-btn" style="background: var(--danger);" onclick="removeCustomBg()" style="margin-top: 10px;">
-                        إزالة الخلفية المخصصة
-                    </button>
+                    <input type="text" class="url-input" id="bgUrlInput" placeholder="أو أدخل رابط الصورة...">
+                    <button class="apply-btn" onclick="applyBackgroundUrl()">تطبيق</button>
+                    <button class="apply-btn" style="background:var(--danger)" onclick="removeCustomBg()">إزالة</button>
                 </div>
             </div>
-
-            <!-- Audio Settings -->
             <div class="settings-section">
-                <h3 class="section-title"><span>🎵</span> الصوت والموسيقى</h3>
-                
+                <h3 class="section-title"><span>🎵</span> الصوت</h3>
                 <div class="setting-row">
-                    <label class="setting-label">الموسيقى الخلفية</label>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="musicEnabled" checked onchange="toggleMusicSetting()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
+                    <label class="setting-label">الموسيقى</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="musicEnabled" checked onchange="toggleMusicSetting()">
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
-
                 <div class="setting-row">
                     <label class="setting-label">مستوى الصوت</label>
                     <div class="setting-control">
@@ -1494,33 +1420,39 @@
                         <span id="volumeValue">50%</span>
                     </div>
                 </div>
-
                 <div class="file-upload">
-                    <label class="setting-label">رفع موسيقى مخصصة:</label>
+                    <label class="setting-label">رفع موسيقى:</label>
                     <div class="file-input-wrapper">
-                        <button class="file-upload-btn">
-                            <span>🎵</span>
-                            <span>اختر ملف صوتي</span>
-                        </button>
+                        <button class="file-upload-btn">🎵 اختر ملف</button>
                         <input type="file" accept="audio/*" onchange="uploadMusic(event)">
                     </div>
                 </div>
             </div>
-
-            <!-- Reset Settings -->
-            <div class="settings-section">
-                <button class="nav-btn btn-secondary" onclick="resetSettings()" style="width: 100%; justify-content: center;">
-                    <span>🔄</span>
-                    <span>إعادة ضبط الإعدادات الافتراضية</span>
-                </button>
-            </div>
+            <button class="nav-btn btn-prev" onclick="resetSettings()" style="width:100%;justify-content:center;">🔄 إعادة ضبط</button>
         </div>
     </div>
 
-    <!-- Hidden Audio Element -->
-    <audio id="bgMusic" loop>
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleQkAZrTysqJxSgA=" type="audio/wav">
-    </audio>
+    <!-- SHARE MODAL -->
+    <div class="share-modal-overlay" id="shareModal">
+        <div class="share-modal">
+            <h3>📤 مشاركة نتيجتك</h3>
+            <p style="color:var(--text-secondary);margin-bottom:8px;font-size:13px;">لقد حصلت على:</p>
+            <div class="score-share-display" id="shareScoreDisplay">0%</div>
+            <p style="color:var(--text-secondary);margin-bottom:12px;font-size:13px;">في لعبة الأمن السيبراني!</p>
+            <div class="share-options">
+                <button class="share-option-btn share-twitter" onclick="shareOnTwitter()">🐦 تويتر</button>
+                <button class="share-option-btn share-facebook" onclick="shareOnFacebook()">📘 فيسبوك</button>
+                <button class="share-option-btn share-whatsapp" onclick="shareOnWhatsApp()">💬 واتساب</button>
+                <button class="share-option-btn share-copy" onclick="copyScore()">📋 نسخ</button>
+            </div>
+            <button class="close-modal" onclick="closeShareModal()" style="margin-top:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;margin-right:auto;">✕</button>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">✅ تم النسخ بنجاح!</div>
+
+    <!-- AUDIO -->
+    <audio id="bgMusic" loop preload="auto"><source src="" type="audio/mpeg"></audio>
 
     <script>
         // ==================== GAME STATE ====================
@@ -1536,16 +1468,71 @@
             bestScore: 0,
             answers: [],
             audioPlaying: false,
-            isMuted: false
+            isMuted: false,
+            lastQuizScore: 0
         };
 
-        // ==================== LEARNING CONTENT (TEMPLATE SYSTEM) ====================
+        // ==================== AUDIO SYSTEM ====================
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (gameState.isMuted) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            const vol = (document.getElementById('volumeSlider')?.value || 50) / 100;
+
+            switch(type) {
+                case 'click':
+                    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.12 * vol, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.08);
+                    break;
+                case 'correct':
+                    [523.25, 659.25, 783.99].forEach((f, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g); g.connect(audioCtx.destination);
+                        o.frequency.value = f;
+                        g.gain.setValueAtTime(0.2 * vol, audioCtx.currentTime + i * 0.12);
+                        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i * 0.12 + 0.25);
+                        o.start(audioCtx.currentTime + i * 0.12);
+                        o.stop(audioCtx.currentTime + i * 0.12 + 0.25);
+                    });
+                    break;
+                case 'wrong':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.15 * vol, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+                    break;
+                case 'success':
+                    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g); g.connect(audioCtx.destination);
+                        o.frequency.value = f;
+                        g.gain.setValueAtTime(0.18 * vol, audioCtx.currentTime + i * 0.13);
+                        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i * 0.13 + 0.28);
+                        o.start(audioCtx.currentTime + i * 0.13);
+                        o.stop(audioCtx.currentTime + i * 0.13 + 0.28);
+                    });
+                    break;
+            }
+        }
+
+        // ==================== CONTENT (NO MEDIA CONTAINER) ====================
         const slidesData = [
             {
                 title: "مقدمة في الأمن السيبراني",
                 content: `
                     <h3>ما هو الأمن السيبراني؟</h3>
-                    <p>الأمن السيبراني هو ممارسة حماية الأنظمة والشبكات والبرامج من الهجمات الرقمية. هذه الهجمات تهدف عادةً إلى الوصول إلى المعلومات الحساسة أو تغييرها أو تدميرها أو ابتزاز المال من المستخدمين.</p>
+                    <p>الأمن السيبراني هو ممارسة حماية الأنظمة والشبكات والبرامج من الهجمات الرقمية. هذه الهجمات تهدف عادةً إلى الوصول إلى المعلومات الحساسة أو تغييرها أو تدميرها.</p>
                     
                     <div class="highlight-box">
                         <strong>💡 هل تعلم؟</strong><br>
@@ -1568,15 +1555,21 @@
                     <ul>
                         <li><strong>البرمجيات الخبيثة (Malware)</strong> - برامج ضارة تصيب الأجهزة</li>
                         <li><strong>التصيد الاحتيالي (Phishing)</strong> - محاولات سرقة المعلومات عبر رسائل مزيفة</li>
-                        <li>برامج الفدية (Ransomware) - تشفير الملفات وطلب الفدية</li>
-                        <li>هجمات حرفية الاعتماد (DDoS) - إغراق المواقع بالطلبات</li>
-                        <li>برامج التجسس (Spyware) - مراقبة نشاط المستخدم</li>
+                        <li><strong>برامج الفدية (Ransomware)</strong> - تشفير الملفات وطلب الفدية</li>
+                        <li><strong>هجمات DDoS</strong> - إغراق المواقع بالطلبات</li>
                     </ul>
 
                     <div class="warning-box">
                         <strong>⚠️ تحذير!</strong><br>
                         احذر من الروابط غير المعروفة والملفات المرفقة من مرسلين مجهولين!
                     </div>
+
+                    <h3>كيف تحمي نفسك:</h3>
+                    <ul>
+                        <li>استخدم برنامج مضاد للفيروسات</li>
+                        <li>حدث نظام التشغيل بانتظام</li>
+                        <li>لا تفتح روابط مشبوهة</li>
+                    </ul>
                 `
             },
             {
@@ -1593,14 +1586,14 @@
 
                     <div class="highlight-box">
                         <strong>💡 نصيحة ذهبية:</strong><br>
-                        استخدم عبارة مرور (Passphrase) مثل: "القطار-يطير-في-السماء-الزرقاء-2024!"
+                        استخدم عبارة مرور مثل: "القطار-يطير-2024!@"
                     </div>
 
                     <h3>أدوات مساعدة:</h3>
                     <ul>
                         <li>مديرو كلمات المرور (LastPass, Bitwarden)</li>
                         <li>المصادقة الثنائية (2FA)</li>
-                        <li>المصادقة البيومترية</li>
+                        <li>المصادقة البيومترية (بصمة، وجه)</li>
                     </ul>
                 `
             },
@@ -1676,9 +1669,9 @@
                     <h3>تهديدات البريد الإلكتروني:</h3>
                     <ul>
                         <li><strong>التصيد الاحتيالي (Phishing)</strong></li>
-                        <li>البريد المزعج (Spam)</li>
-                        <li>البرمجيات الخبيثة في المرفقات</li>
-                        <li>محاولات الهندسة الاجتماعية</li>
+                        <li><strong>البريد المزعج (Spam)</strong></li>
+                        <li><strong>البرمجيات الخبيثة في المرفقات</strong></li>
+                        <li><strong>محاولات الهندسة الاجتماعية</strong></li>
                     </ul>
 
                     <h3>علامات البريد المشبوه:</h3>
@@ -1711,7 +1704,7 @@
                         <li>استخدم بطاقات مسبقة الدفع</li>
                         <li>تفحص كشوف الحساب بانتظام</li>
                         <li>تجنب الحفظ التلقائي لبيانات البطاقة</li>
-                        <li>استخدم حساب PayPal أو وسطاء آمنين</li>
+                        <li>استخدم PayPal أو وسطاء آمنين</li>
                     </ul>
 
                     <div class="highlight-box">
@@ -1736,11 +1729,11 @@
                         <li>جعل الحساب خاصاً إذا أمكن</li>
                         <li>مراجعة من يمكنه رؤية منشوراتك</li>
                         <li>تعطيل تحديد الموقع تلقائياً</li>
-                        <li>مراجعة التطبيحات المرتبطة</li>
+                        <li>مراجعة التطبيقات المرتبطة</li>
                     </ul>
 
                     <div class="warning-box">
-                        <strong>⚧️ تذكر:</strong><br>
+                        <strong>⚠️ تذكر:</strong><br>
                         ما تنشره على الإنترنت يبقى هناك للأبد! فكر قبل النشر.
                     </div>
                 `
@@ -1766,7 +1759,7 @@
 
                     <div class="highlight-box">
                         <strong>🛡️ برامج مضادة موثوقة:</strong><br>
-                        Windows Defender, Kaspersky, Malwarebytes, Avast
+                        Windows Defender, Kaspersky, Malwarebytes
                     </div>
                 `
             },
@@ -1801,7 +1794,7 @@
                     <ul>
                         <li>حدث جميع برامجك بانتظام</li>
                         <li>استخدم كلمة مرور مختلفة لكل حساب</li>
-                        <li>فعّل المصادقة الثنائية везде</li>
+                        <li>فعّل المصادقة الثنائية في كل مكان</li>
                         <li>لا تفتح روابط أو مرفقات مشبوهة</li>
                         <li>استخدم VPN على الشبكات العامة</li>
                         <li>راجع كشوفك البنكية أسبوعياً</li>
@@ -1813,44 +1806,19 @@
                         الوقاية خير من العلاج! استثمر دقيقة يومياً في أمانك الرقمي.
                     </div>
 
-                    <h3>🎉 مبروك! لقد أكملت جميع الدروس!</h3>
+                    <h3 style="color:var(--success);margin-top:20px;">🎉 مبروك! لقد أكملت جميع الدروس!</h3>
                     <p>الآن يمكنك اختبار معرفتك بالانتقال للاختبار.</p>
                 `
             }
         ];
 
-        // ==================== QUIZ QUESTIONS (TEMPLATE SYSTEM) ====================
+        // ==================== QUIZ DATA ====================
         const quizData = [
-            {
-                question: "ما هو أفضل طول لكلمة المرور القوية؟",
-                options: ["6 أحرف", "8 أحرف", "12 حرفاً على الأقل", "4 أحرف"],
-                correct: 2,
-                explanation: "كلمات المرور القوية يجب أن تكون 12 حرفاً على الأقل لتكون صعبة التخمين!"
-            },
-            {
-                question: "ماذا يعني HTTPS في عنوان الموقع؟",
-                options: ["موقع سريع", "موقع مشفر وآمن", "موقع مجاني", "موقع حديث"],
-                correct: 1,
-                explanation: "HTTPS يعني أن الاتصال بينك والموقع مشفر وآمن!"
-            },
-            {
-                question: "ما هو التصيد الاحتيالي (Phishing)؟",
-                options: ["نوع من الأسماك", "محاولة سرقة المعلومات via رسائل مزيفة", "لعبة أونلاين", "برنامج حماية"],
-                correct: 1,
-                explanation: "التصيد الاحتيالي هو محاولة لسرقة معلوماتك عبر رسائل تبدو رسمية!"
-            },
-            {
-                question: "ما هي أفضل ممارسة لكلمات المرور؟",
-                options: ["نفس كلمة لكل حساب", "كلمة بسيطة سهلة التذكر", "كلمة فريدة لكل حساب مع مدير كلمات", "كتابتها على ورقة"],
-                correct: 2,
-                explanation: "استخدم كلمة مرور فريدة لكل حساب مع مدير كلمات مرور موثوق!"
-            },
-            {
-                question: "لماذا المصادقة الثنائية (2FA) مهمة؟",
-                options: ["تجعل تسجيل الدخول أبطأ", "توفر طبقة حماية إضافية", "غير ضرورية", "للعرض فقط"],
-                correct: 1,
-                explanation: "المصادقة الثنائية توفر طبقة أمان إضافية حتى لو سرقت كلمة المرور!"
-            }
+            { question: "ما هو أفضل طول لكلمة المرور القوية؟", options: ["6 أحرف", "8 أحرف", "12 حرفاً على الأقل", "4 أحرف"], correct: 2, explanation: "كلمات المرور القوية يجب أن تكون 12 حرفاً على الأقل!" },
+            { question: "ماذا يعني HTTPS في عنوان الموقع؟", options: ["موقع سريع", "موقع مشفر وآمن", "موقع مجاني", "موقع حديث"], correct: 1, explanation: "HTTPS يعني أن الاتصال بينك والموقع مشفر وآمن!" },
+            { question: "ما هو التصيد الاحتيالي (Phishing)؟", options: ["نوع من الأسماك", "محاولة سرقة المعلومات عبر رسائل مزيفة", "لعبة أونلاين", "برنامج حماية"], correct: 1, explanation: "التصيد الاحتيالي هو محاولة لسرقة معلوماتك عبر رسائل تبدو رسمية!" },
+            { question: "ما هي أفضل ممارسة لكلمات المرور؟", options: ["نفس كلمة لكل حساب", "كلمة بسيطة سهلة التذكر", "كلمة فريدة لكل حساب مع مدير كلمات", "كتابتها على ورقة"], correct: 2, explanation: "استخدم كلمة مرور فريدة لكل حساب مع مدير كلمات مرور موثوق!" },
+            { question: "لماذا المصادقة الثنائية (2FA) مهمة؟", options: ["تجعل تسجيل الدخول أبطأ", "توفر طبقة حماية إضافية", "غير ضرورية", "للعرض فقط"], correct: 1, explanation: "المصادقة الثنائية توفر طبقة أمان إضافية حتى لو سرقت كلمة المرور!" }
         ];
 
         // ==================== INITIALIZATION ====================
@@ -1859,560 +1827,369 @@
             generateSlideIndicators();
             generateQuizDots();
             loadSettings();
+            loadProgress();
             updateUI();
-            
-            console.log('Game initialized successfully!');
+
+            document.querySelectorAll('.menu-card, .nav-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => playSound('click'));
+            });
         });
 
-        // Create animated particles
         function initParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                container.appendChild(particle);
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 18 + 's';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(p);
             }
         }
 
-        // ==================== NAVIGATION FUNCTIONS ====================
+        // ==================== NAVIGATION ====================
         function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show target page
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
-            // Show/hide home button
-            const homeBtn = document.getElementById('homeBtn');
-            if (pageId === 'homePage') {
-                homeBtn.classList.remove('visible');
-            } else {
-                homeBtn.classList.add('visible');
-            }
-
-            console.log('Navigated to:', pageId);
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('homeBtn').classList.toggle('visible', pageId !== 'homePage');
+            document.getElementById('shareBtn').classList.toggle('visible', pageId === 'resultsPage');
         }
 
-        function goHome() {
-            showPage('homePage');
-            updateProgress();
-        }
+        function goHome() { playSound('click'); showPage('homePage'); updateProgress(); }
+        
+        function startLearning() { playSound('click'); gameState.currentSlide = 0; showPage('learningPage'); renderSlide(); updateSlideIndicators(); updateProgress(); }
+        
+        function startQuiz() { playSound('click'); gameState.currentQuestion = 0; gameState.answers = []; gameState.correctAnswers = 0; gameState.wrongAnswers = 0; showPage('quizPage'); renderQuestion(); updateQuizDots(); updateProgress(); }
+        
+        function showProgress() { playSound('click'); document.getElementById('totalScoreDisplay').textContent = gameState.totalScore; document.getElementById('lessonsCompleted').textContent = gameState.completedSlides.length; document.getElementById('quizzesTaken').textContent = gameState.quizzesCompleted; document.getElementById('bestScore').textContent = gameState.bestScore + '%'; showPage('progressPage'); }
 
-        function startLearning() {
-            gameState.currentSlide = 0;
-            showPage('learningPage');
-            renderSlide();
-            updateSlideIndicators();
-            updateProgress();
-        }
-
-        function startQuiz() {
-            gameState.currentQuestion = 0;
-            gameState.answers = [];
-            gameState.correctAnswers = 0;
-            gameState.wrongAnswers = 0;
-            showPage('quizPage');
-            renderQuestion();
-            updateQuizDots();
-            updateProgress();
-        }
-
-        function showProgress() {
-            document.getElementById('totalScoreDisplay').textContent = gameState.totalScore;
-            document.getElementById('lessonsCompleted').textContent = gameState.completedSlides.length;
-            document.getElementById('quizzesTaken').textContent = gameState.quizzesCompleted;
-            document.getElementById('bestScore').textContent = gameState.bestScore;
-
-            // Show completed lessons
-            const listContainer = document.getElementById('completedLessonsList');
-            listContainer.innerHTML = '';
-            for (let i = 0; i < gameState.completedSlides.length; i++) {
-                const badge = document.createElement('span');
-                badge.style.cssText = 'padding: 8px 15px; background: var(--success); border-radius: 20px; font-size: 14px;';
-                badge.textContent = `الدرس ${gameState.completedSlides[i] + 1}`;
-                listContainer.appendChild(badge);
-            }
-
-            showPage('progressPage');
-        }
-
-        // ==================== SLIDE FUNCTIONS ====================
+        // ==================== SLIDES ====================
         function renderSlide() {
             const slide = slidesData[gameState.currentSlide];
             document.getElementById('slideNumber').textContent = `الدرس ${gameState.currentSlide + 1} من ${slidesData.length}`;
             document.getElementById('slideTitle').textContent = slide.title;
             document.getElementById('slideContent').innerHTML = slide.content;
 
-            // Update navigation buttons
             document.getElementById('prevBtn').style.visibility = gameState.currentSlide === 0 ? 'hidden' : 'visible';
             
             const nextBtn = document.getElementById('nextBtn');
             if (gameState.currentSlide === slidesData.length - 1) {
                 nextBtn.innerHTML = '<span>🎯</span><span>ابدأ الاختبار</span>';
-                nextBtn.onclick = startQuiz;
+                nextBtn.onclick = () => { playSound('click'); startQuiz(); };
             } else {
                 nextBtn.innerHTML = '<span>التالي</span><span>←</span>';
-                nextBtn.onclick = nextSlide;
+                nextBtn.onclick = () => { playSound('click'); nextSlide(); };
             }
 
-            // Mark slide as completed
             if (!gameState.completedSlides.includes(gameState.currentSlide)) {
                 gameState.completedSlides.push(gameState.currentSlide);
             }
-
             updateSlideIndicators();
             updateProgress();
+            saveProgress();
         }
 
-        function nextSlide() {
-            if (gameState.currentSlide < slidesData.length - 1) {
-                gameState.currentSlide++;
-                renderSlide();
-            }
-        }
-
-        function prevSlide() {
-            if (gameState.currentSlide > 0) {
-                gameState.currentSlide--;
-                renderSlide();
-            }
-        }
-
-        function goToSlide(index) {
-            gameState.currentSlide = index;
-            renderSlide();
-        }
+        function nextSlide() { if (gameState.currentSlide < slidesData.length - 1) { gameState.currentSlide++; renderSlide(); } }
+        function prevSlide() { if (gameState.currentSlide > 0) { gameState.currentSlide--; renderSlide(); } }
+        
+        function goToSlide(index) { playSound('click'); gameState.currentSlide = index; renderSlide(); }
 
         function generateSlideIndicators() {
             const container = document.getElementById('slideIndicators');
             container.innerHTML = '';
             for (let i = 0; i < slidesData.length; i++) {
-                const indicator = document.createElement('button');
-                indicator.className = 'indicator';
-                indicator.onclick = () => goToSlide(i);
-                indicator.title = `الدرس ${i + 1}`;
-                container.appendChild(indicator);
+                const ind = document.createElement('button');
+                ind.className = 'indicator';
+                ind.onclick = () => goToSlide(i);
+                ind.title = `الدرس ${i + 1}`;
+                container.appendChild(ind);
             }
         }
 
         function updateSlideIndicators() {
-            const indicators = document.querySelectorAll('.slide-indicators .indicator');
-            indicators.forEach((ind, idx) => {
+            document.querySelectorAll('.slide-indicators .indicator').forEach((ind, idx) => {
                 ind.classList.remove('active', 'completed');
-                if (idx === gameState.currentSlide) {
-                    ind.classList.add('active');
-                } else if (gameState.completedSlides.includes(idx)) {
-                    ind.classList.add('completed');
-                }
+                if (idx === gameState.currentSlide) ind.classList.add('active');
+                else if (gameState.completedSlides.includes(idx)) ind.classList.add('completed');
             });
         }
 
-        // ==================== QUIZ FUNCTIONS ====================
+        // ==================== QUIZ ====================
         function renderQuestion() {
             const q = quizData[gameState.currentQuestion];
             document.getElementById('questionNumber').textContent = `السؤال ${gameState.currentQuestion + 1} من ${quizData.length}`;
             document.getElementById('questionText').textContent = q.question;
 
-            const optionsList = document.getElementById('optionsList');
-            optionsList.innerHTML = '';
-
-            const letters = ['أ', 'ب', 'ج', 'د'];
-            q.options.forEach((opt, idx) => {
+            const list = document.getElementById('optionsList');
+            list.innerHTML = '';
+            ['أ', 'ب', 'ج', 'د'].forEach((letter, idx) => {
                 const li = document.createElement('li');
                 li.className = 'option-item';
-                li.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt}</span>`;
+                li.innerHTML = `<span class="option-letter">${letter}</span><span>${q.options[idx]}</span>`;
                 li.onclick = () => selectOption(idx);
-                li.dataset.index = idx;
-                optionsList.appendChild(li);
+                list.appendChild(li);
             });
 
-            // Hide feedback and disable next button
             document.getElementById('feedbackMessage').classList.remove('show', 'correct', 'wrong');
             document.getElementById('quizNextBtn').disabled = true;
-
-            // Update prev button visibility
             document.getElementById('quizPrevBtn').style.visibility = gameState.currentQuestion === 0 ? 'hidden' : 'visible';
+
+            const nextBtn = document.getElementById('quizNextBtn');
+            nextBtn.innerHTML = gameState.currentQuestion === quizData.length - 1 ? '<span>عرض النتيجة</span><span>✨</span>' : '<span>التالي</span><span>←</span>';
 
             updateQuizDots();
         }
 
         function selectOption(index) {
-            // Prevent re-selection
-            const options = document.querySelectorAll('.option-item');
-            if (Array.from(options).some(opt => opt.classList.contains('correct') || opt.classList.contains('wrong'))) {
-                return;
-            }
+            const opts = document.querySelectorAll('.option-item');
+            if (Array.from(opts).some(o => o.classList.contains('correct') || o.classList.contains('wrong'))) return;
 
             const q = quizData[gameState.currentQuestion];
-            const selectedOption = options[index];
-            selectedOption.classList.add('selected');
+            const sel = opts[index];
+            sel.classList.add('selected');
 
-            // Show feedback
-            const feedback = document.getElementById('feedbackMessage');
-            feedback.classList.add('show');
+            const fb = document.getElementById('feedbackMessage');
+            fb.classList.add('show');
 
             if (index === q.correct) {
-                selectedOption.classList.add('correct');
-                feedback.classList.add('correct');
-                feedback.textContent = `✅ إجابة صحيحة! ${q.explanation}`;
+                sel.classList.add('correct');
+                fb.classList.add('correct');
+                fb.textContent = `✅ إجابة صحيحة! ${q.explanation}`;
                 gameState.correctAnswers++;
                 gameState.score += 20;
+                playSound('correct');
             } else {
-                selectedOption.classList.add('wrong');
-                options[q.correct].classList.add('correct');
-                feedback.classList.add('wrong');
-                feedback.textContent = `❌ إجابة خاطئة! ${q.explanation}`;
+                sel.classList.add('wrong');
+                opts[q.correct].classList.add('correct');
+                fb.classList.add('wrong');
+                fb.textContent = `❌ إجابة خاطئة! ${q.explanation}`;
                 gameState.wrongAnswers++;
+                playSound('wrong');
             }
 
-            gameState.answers.push({
-                question: gameState.currentQuestion,
-                selected: index,
-                correct: index === q.correct
-            });
-
-            // Enable next button
+            gameState.answers.push({ question: gameState.currentQuestion, selected: index, correct: index === q.correct });
             document.getElementById('quizNextBtn').disabled = false;
             updateQuizDots();
             updateScoreDisplay();
         }
 
-        function nextQuestion() {
-            if (gameState.currentQuestion < quizData.length - 1) {
-                gameState.currentQuestion++;
-                renderQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function prevQuestion() {
-            if (gameState.currentQuestion > 0) {
-                gameState.currentQuestion--;
-                renderQuestion();
-            }
-        }
+        function nextQuestion() { playSound('click'); if (gameState.currentQuestion < quizData.length - 1) { gameState.currentQuestion++; renderQuestion(); } else { showResults(); } }
+        function prevQuestion() { playSound('click'); if (gameState.currentQuestion > 0) { gameState.currentQuestion--; renderQuestion(); } }
 
         function generateQuizDots() {
             const container = document.getElementById('quizProgress');
             container.innerHTML = '';
             for (let i = 0; i < quizData.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'quiz-dot';
-                container.appendChild(dot);
+                const d = document.createElement('div');
+                d.className = 'quiz-dot';
+                container.appendChild(d);
             }
         }
 
         function updateQuizDots() {
-            const dots = document.querySelectorAll('.quiz-dot');
-            dots.forEach((dot, idx) => {
+            document.querySelectorAll('.quiz-dot').forEach((dot, idx) => {
                 dot.classList.remove('current', 'correct', 'wrong');
-                if (idx === gameState.currentQuestion) {
-                    dot.classList.add('current');
-                } else if (idx < gameState.currentQuestion || gameState.answers[idx]) {
-                    if (gameState.answers[idx] && gameState.answers[idx].correct) {
-                        dot.classList.add('correct');
-                    } else if (gameState.answers[idx]) {
-                        dot.classList.add('wrong');
-                    }
-                }
+                if (idx === gameState.currentQuestion) dot.classList.add('current');
+                else if (gameState.answers[idx]) dot.classList.add(gameState.answers[idx].correct ? 'correct' : 'wrong');
             });
         }
 
-        // ==================== RESULTS FUNCTIONS ====================
+        // ==================== RESULTS ====================
         function showResults() {
-            const percentage = (gameState.correctAnswers / quizData.length) * 100;
-            const pointsEarned = gameState.correctAnswers * 20;
+            playSound('success');
+            const pct = Math.round((gameState.correctAnswers / quizData.length) * 100);
+            const pts = gameState.correctAnswers * 20;
 
-            gameState.totalScore += pointsEarned;
+            gameState.totalScore += pts;
             gameState.quizzesCompleted++;
-            if (percentage > gameState.bestScore) {
-                gameState.bestScore = percentage;
-            }
+            gameState.lastQuizScore = pct;
+            if (pct > gameState.bestScore) gameState.bestScore = pct;
 
-            document.getElementById('finalScore').textContent = Math.round(percentage);
+            document.getElementById('finalScore').textContent = pct;
             document.getElementById('correctCount').textContent = gameState.correctAnswers;
             document.getElementById('wrongCount').textContent = gameState.wrongAnswers;
-            document.getElementById('totalPoints').textContent = pointsEarned;
+            document.getElementById('totalPoints').textContent = pts;
 
-            // Set icon and message based on score
             const icon = document.getElementById('resultsIcon');
-            const message = document.getElementById('resultsMessage');
+            const msg = document.getElementById('resultsMessage');
 
-            if (percentage >= 80) {
-                icon.textContent = '🏆';
-                message.textContent = 'مذهل! لديك فهم ممتاز للأمن السيبراني. أنت محمي بشكل جيد!';
-            } else if (percentage >= 60) {
-                icon.textContent = '🌟';
-                message.textContent = 'جيد جداً! لديك معرفة جيدة، لكن هناك مجال للتحسين.';
-            } else if (percentage >= 40) {
-                icon.textContent = '📚';
-                message.textContent = 'ليس سيئاً! نراجع الدروس ونحاول مرة أخرى.';
-            } else {
-                icon.textContent = '💪';
-                message.textContent = 'لا بأس! التعلم يستغرق وقتاً. راجع الدروس وحاول مرة أخرى.';
-            }
+            if (pct >= 80) { icon.textContent = '🏆'; msg.textContent = 'مذهل! لديك فهم ممتاز للأمن السيبراني!'; }
+            else if (pct >= 60) { icon.textContent = '🌟'; msg.textContent = 'جيد جداً! لديك معرفة جيدة، لكن هناك مجال للتحسين.'; }
+            else if (pct >= 40) { icon.textContent = '📚'; msg.textContent = 'ليس سيئاً! راجع الدرس وحاول مجدداً.'; }
+            else { icon.textContent = '💪'; msg.textContent = 'لا بأس! التعلم يستغرق وقتاً. راجع الدروس وحاول مرة أخرى.'; }
 
             showPage('resultsPage');
             updateScoreDisplay();
             saveProgress();
         }
 
-        function restartQuiz() {
-            gameState.score = 0;
-            gameState.correctAnswers = 0;
-            gameState.wrongAnswers = 0;
-            startQuiz();
+        function restartQuiz() { playSound('click'); gameState.score = 0; gameState.correctAnswers = 0; gameState.wrongAnswers = 0; startQuiz(); }
+
+        // ==================== SHARE ====================
+        function openShareModal() { playSound('click'); document.getElementById('shareScoreDisplay').textContent = gameState.lastQuizScore + '%'; document.getElementById('shareModal').classList.add('active'); }
+        function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
+        
+        function getShareText() { return `🏆 حصلت على ${gameState.lastQuizScore}% في لعبة الأمن السيبراني!\n🛡️ اختبر معرفتك الآن!`; }
+        
+        function shareOnTwitter() { playSound('click'); window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}`, '_blank'); }
+        function shareOnFacebook() { playSound('click'); window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(getShareText())}`, '_blank'); }
+        function shareOnWhatsApp() { playSound('click'); window.open(`https://wa.me/?text=${encodeURIComponent(getShareText())}`, '_blank'); }
+        
+        function copyScore() {
+            playSound('click');
+            navigator.clipboard.writeText(getShareText()).then(() => {
+                const n = document.getElementById('copyNotification');
+                n.classList.add('show');
+                setTimeout(() => n.classList.remove('show'), 2000);
+            });
         }
 
-        // ==================== UI UPDATE FUNCTIONS ====================
+        // ==================== UI UPDATES ====================
         function updateProgress() {
-            const totalItems = slidesData.length + quizData.length;
-            const completed = gameState.completedSlides.length + (gameState.currentQuestion > 0 ? gameState.currentQuestion : 0);
-            const percentage = Math.round((completed / totalItems) * 100);
-
-            document.getElementById('progressBar').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = `التقدم: ${percentage}%`;
+            const total = slidesData.length + quizData.length;
+            const done = gameState.completedSlides.length + (gameState.currentQuestion > 0 ? gameState.currentQuestion : 0);
+            const pct = Math.round((done / total) * 100);
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('progressText').textContent = `التقدم: ${pct}%`;
         }
 
-        function updateScoreDisplay() {
-            document.getElementById('scoreDisplay').textContent = `${gameState.totalScore + gameState.score} نقطة`;
-        }
+        function updateScoreDisplay() { document.getElementById('scoreDisplay').textContent = `${gameState.totalScore + gameState.score} نقطة`; }
+        function updateUI() { updateProgress(); updateScoreDisplay(); }
 
-        function updateUI() {
-            updateProgress();
-            updateScoreDisplay();
-        }
-
-        // ==================== SETTINGS FUNCTIONS ====================
-        function openSettings() {
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
-            saveSettings();
-        }
+        // ==================== SETTINGS ====================
+        function openSettings() { playSound('click'); document.getElementById('settingsModal').classList.add('active'); }
+        function closeSettings() { playSound('click'); document.getElementById('settingsModal').classList.remove('active'); saveSettings(); }
 
         function updateColors() {
-            const primary = document.getElementById('primaryColor').value;
-            const secondary = document.getElementById('secondaryColor').value;
-            const accent = document.getElementById('accentColor').value;
-
-            document.documentElement.style.setProperty('--primary-color', primary);
-            document.documentElement.style.setProperty('--secondary-color', secondary);
-            document.documentElement.style.setProperty('--accent-color', accent);
-
+            document.documentElement.style.setProperty('--primary-color', document.getElementById('primaryColor').value);
+            document.documentElement.style.setProperty('--secondary-color', document.getElementById('secondaryColor').value);
+            document.documentElement.style.setProperty('--accent-color', document.getElementById('accentColor').value);
             saveSettings();
         }
 
         function updateFonts() {
-            const fontFamily = document.getElementById('fontFamily').value;
-            const fontSizeBase = document.getElementById('fontSizeBase').value;
-            const fontSizeLarge = document.getElementById('fontSizeLarge').value;
-
-            document.documentElement.style.setProperty('--font-family', fontFamily);
-            document.documentElement.style.setProperty('--font-size-base', fontSizeBase + 'px');
-            document.documentElement.style.setProperty('--font-size-large', fontSizeLarge + 'px');
-
-            document.getElementById('fontSizeValue').textContent = fontSizeBase + 'px';
-            document.getElementById('fontSizeLargeValue').textContent = fontSizeLarge + 'px';
-
+            document.documentElement.style.setProperty('--font-family', document.getElementById('fontFamily').value);
+            document.documentElement.style.setProperty('--font-size-base', document.getElementById('fontSizeBase').value + 'px');
+            document.getElementById('fontSizeValue').textContent = document.getElementById('fontSizeBase').value + 'px';
             saveSettings();
         }
 
         function toggleAnimatedBg() {
-            const enabled = document.getElementById('animatedBg').checked;
-            const particles = document.getElementById('particles');
-            const animatedBg = document.querySelector('.animated-bg');
-            
-            particles.style.display = enabled ? 'block' : 'none';
-            animatedBg.style.display = enabled ? 'block' : 'none';
-
+            const on = document.getElementById('animatedBg').checked;
+            document.getElementById('particles').style.display = on ? 'block' : 'none';
+            document.querySelector('.animated-bg').style.display = on ? 'block' : 'none';
             saveSettings();
         }
 
-        function uploadBackground(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    applyCustomBackground(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
+        function uploadBackground(e) {
+            const f = e.target.files[0];
+            if (f) { const r = new FileReader(); r.onload = ev => applyCustomBackground(ev.target.result); r.readAsDataURL(f); }
         }
 
         function applyBackgroundUrl() {
             const url = document.getElementById('bgUrlInput').value.trim();
-            if (url) {
-                applyCustomBackground(url);
-            }
+            if (url) applyCustomBackground(url);
         }
 
         function applyCustomBackground(url) {
-            const customBg = document.getElementById('customBg');
-            customBg.style.backgroundImage = `url('${url}')`;
-            customBg.classList.add('active');
+            const bg = document.getElementById('customBg');
+            bg.style.backgroundImage = `url('${url}')`;
+            bg.classList.add('active');
             localStorage.setItem('customBgUrl', url);
         }
 
         function removeCustomBg() {
-            const customBg = document.getElementById('customBg');
-            customBg.classList.remove('active');
-            customBg.style.backgroundImage = '';
+            document.getElementById('customBg').classList.remove('active');
             localStorage.removeItem('customBgUrl');
             document.getElementById('bgUrlInput').value = '';
         }
 
-        function toggleMusicSetting() {
-            const enabled = document.getElementById('musicEnabled').checked;
-            if (!enabled) {
-                stopAudio();
-            }
-            saveSettings();
-        }
-
+        function toggleMusicSetting() { if (!document.getElementById('musicEnabled').checked) stopAudio(); saveSettings(); }
+        
         function updateVolume() {
-            const volume = document.getElementById('volumeSlider').value;
-            const audio = document.getElementById('bgMusic');
-            audio.volume = volume / 100;
-            document.getElementById('volumeValue').textContent = volume + '%';
+            const v = document.getElementById('volumeSlider').value;
+            document.getElementById('bgMusic').volume = v / 100;
+            document.getElementById('volumeValue').textContent = v + '%';
             saveSettings();
         }
 
-        function uploadMusic(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const url = URL.createObjectURL(file);
-                const audio = document.getElementById('bgMusic');
-                audio.src = url;
-                if (gameState.audioPlaying) {
-                    audio.play();
-                }
-            }
+        function uploadMusic(e) {
+            const f = e.target.files[0];
+            if (f) { document.getElementById('bgMusic').src = URL.createObjectURL(f); if (gameState.audioPlaying) document.getElementById('bgMusic').play(); }
         }
 
-        function resetSettings() {
-            localStorage.removeItem('gameSettings');
-            location.reload();
-        }
+        function resetSettings() { localStorage.removeItem('gameSettings'); location.reload(); }
 
-        // ==================== AUDIO FUNCTIONS ====================
+        // ==================== AUDIO ====================
         function toggleAudio() {
-            const audio = document.getElementById('bgMusic');
-            const btn = document.getElementById('audioToggle');
-
-            if (gameState.audioPlaying) {
-                audio.pause();
-                btn.textContent = '🔇';
-                gameState.audioPlaying = false;
-            } else {
-                audio.play().catch(e => console.log('Audio play failed:', e));
-                btn.textContent = '🎵';
-                gameState.audioPlaying = true;
-            }
+            playSound('click');
+            const a = document.getElementById('bgMusic');
+            const b = document.getElementById('audioToggle');
+            if (gameState.audioPlaying) { a.pause(); b.textContent = '🔇'; gameState.audioPlaying = false; }
+            else { a.play().catch(() => {}); b.textContent = '🎵'; gameState.audioPlaying = true; }
         }
 
         function toggleMute() {
-            const audio = document.getElementById('bgMusic');
-            const btn = document.getElementById('volumeBtn');
-
-            if (gameState.isMuted) {
-                audio.muted = false;
-                btn.textContent = '🔊';
-                btn.classList.remove('muted');
-                gameState.isMuted = false;
-            } else {
-                audio.muted = true;
-                btn.textContent = '🔇';
-                btn.classList.add('muted');
-                gameState.isMuted = true;
-            }
+            playSound('click');
+            const a = document.getElementById('bgMusic');
+            const b = document.getElementById('volumeBtn');
+            if (gameState.isMuted) { a.muted = false; b.textContent = '🔊'; b.classList.remove('audio-muted'); gameState.isMuted = false; }
+            else { a.muted = true; b.textContent = '🔇'; b.classList.add('audio-muted'); gameState.isMuted = true; }
         }
 
-        function stopAudio() {
-            const audio = document.getElementById('bgMusic');
-            audio.pause();
-            audio.currentTime = 0;
-            gameState.audioPlaying = false;
-            document.getElementById('audioToggle').textContent = '🔇';
-        }
+        function stopAudio() { document.getElementById('bgMusic').pause(); gameState.audioPlaying = false; document.getElementById('audioToggle').textContent = '🔇'; }
 
-        // ==================== STORAGE FUNCTIONS ====================
+        // ==================== STORAGE ====================
         function saveSettings() {
-            const settings = {
+            localStorage.setItem('gameSettings', JSON.stringify({
                 primaryColor: document.getElementById('primaryColor').value,
                 secondaryColor: document.getElementById('secondaryColor').value,
                 accentColor: document.getElementById('accentColor').value,
                 fontFamily: document.getElementById('fontFamily').value,
                 fontSizeBase: document.getElementById('fontSizeBase').value,
-                fontSizeLarge: document.getElementById('fontSizeLarge').value,
                 animatedBg: document.getElementById('animatedBg').checked,
                 musicEnabled: document.getElementById('musicEnabled').checked,
                 volume: document.getElementById('volumeSlider').value
-            };
-            localStorage.setItem('gameSettings', JSON.stringify(settings));
+            }));
         }
 
         function loadSettings() {
-            const saved = localStorage.getItem('gameSettings');
-            if (saved) {
-                const settings = JSON.parse(saved);
-                
-                document.getElementById('primaryColor').value = settings.primaryColor || '#00d4ff';
-                document.getElementById('secondaryColor').value = settings.secondaryColor || '#7c3aed';
-                document.getElementById('accentColor').value = settings.accentColor || '#f59e0b';
-                document.getElementById('fontFamily').value = settings.fontFamily || "'Cairo', sans-serif";
-                document.getElementById('fontSizeBase').value = settings.fontSizeBase || 18;
-                document.getElementById('fontSizeLarge').value = settings.fontSizeLarge || 24;
-                document.getElementById('animatedBg').checked = settings.animatedBg !== false;
-                document.getElementById('musicEnabled').checked = settings.musicEnabled !== false;
-                document.getElementById('volumeSlider').value = settings.volume || 50;
-
-                updateColors();
-                updateFonts();
-                updateVolume();
-
-                // Load custom background
-                const customBgUrl = localStorage.getItem('customBgUrl');
-                if (customBgUrl) {
-                    applyCustomBackground(customBgUrl);
-                }
+            const s = localStorage.getItem('gameSettings');
+            if (s) {
+                const st = JSON.parse(s);
+                document.getElementById('primaryColor').value = st.primaryColor || '#00d4ff';
+                document.getElementById('secondaryColor').value = st.secondaryColor || '#7c3aed';
+                document.getElementById('accentColor').value = st.accentColor || '#f59e0b';
+                document.getElementById('fontFamily').value = st.fontFamily || "'Cairo', sans-serif";
+                document.getElementById('fontSizeBase').value = st.fontSizeBase || 15;
+                document.getElementById('animatedBg').checked = st.animatedBg !== false;
+                document.getElementById('musicEnabled').checked = st.musicEnabled !== false;
+                document.getElementById('volumeSlider').value = st.volume || 50;
+                updateColors(); updateFonts(); updateVolume();
+                const u = localStorage.getItem('customBgUrl');
+                if (u) applyCustomBackground(u);
             }
         }
 
         function saveProgress() {
-            const progress = {
+            localStorage.setItem('gameProgress', JSON.stringify({
                 totalScore: gameState.totalScore,
                 completedSlides: gameState.completedSlides,
                 quizzesCompleted: gameState.quizzesCompleted,
                 bestScore: gameState.bestScore
-            };
-            localStorage.setItem('gameProgress', JSON.stringify(progress));
+            }));
         }
 
         function loadProgress() {
-            const saved = localStorage.getItem('gameProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                gameState.totalScore = progress.totalScore || 0;
-                gameState.completedSlides = progress.completedSlides || [];
-                gameState.quizzesCompleted = progress.quizzesCompleted || 0;
-                gameState.bestScore = progress.bestScore || 0;
+            const s = localStorage.getItem('gameProgress');
+            if (s) {
+                const p = JSON.parse(s);
+                gameState.totalScore = p.totalScore || 0;
+                gameState.completedSlides = p.completedSlides || [];
+                gameState.quizzesCompleted = p.quizzesCompleted || 0;
+                gameState.bestScore = p.bestScore || 0;
             }
         }
-
-        // Load saved progress on init
-        loadProgress();
     </script>
 </body>
 </html>
