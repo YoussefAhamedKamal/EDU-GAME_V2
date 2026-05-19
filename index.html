@@ -2006,20 +2006,24 @@
         }
 
         // ==================== NAVIGATION ====================
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.getElementById('homeBtn').classList.toggle('visible', pageId !== 'homePage');
-            document.getElementById('shareBtn').classList.toggle('visible', pageId === 'resultsPage');
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
 
-            // Show/hide bg indicator
-            const indicator = document.getElementById('bgTypeIndicator');
-            if (gameState.currentBgType !== 'none' && pageId !== 'homePage') {
-                indicator.classList.add('visible');
-            } else {
-                indicator.classList.remove('visible');
-            }
-        }
+  document.getElementById('homeBtn').classList.toggle('visible', pageId !== 'homePage');
+  document.getElementById('shareBtn').classList.toggle('visible', pageId === 'resultsPage');
+
+  // Show/hide bg indicator
+  const indicator = document.getElementById('bgTypeIndicator');
+
+  if (indicator) {
+    if (gameState.currentBgType !== 'none' && pageId !== 'homePage') {
+      indicator.classList.add('visible');
+    } else {
+      indicator.classList.remove('visible');
+    }
+  }
+}
 
         function goHome() { playSound('click'); showPage('homePage'); updateProgress(); }
         function startLearning() { playSound('click'); gameState.currentSlide = 0; showPage('learningPage'); renderSlide(); updateSlideIndicators(); updateProgress(); }
