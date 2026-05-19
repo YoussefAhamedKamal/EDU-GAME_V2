@@ -2338,22 +2338,27 @@
             const icon = document.getElementById('bgTypeIcon');
             const text = document.getElementById('bgTypeText');
 
+            // Prevent errors if indicator elements are removed/commented out
+            if (!indicator || !icon || !text) return;
+
             indicator.classList.remove('video-active', 'image-active');
 
             switch(type) {
-                case 'video':
-                    icon.textContent = '🎬';
-                    text.textContent = 'خلفية فيديو';
-                    indicator.classList.add('video-active');
-                    break;
-                case 'image':
-                    icon.textContent = '🖼️';
-                    text.textContent = 'خلفية صورة';
-                    indicator.classList.add('image-active');
-                    break;
-                default:
-                    icon.textContent = '';
-                    text.textContent = '';
+            case 'video':
+                icon.textContent = '🎬';
+                text.textContent = 'خلفية فيديو';
+                indicator.classList.add('video-active');
+                break;
+
+            case 'image':
+                icon.textContent = '🖼️';
+                text.textContent = 'خلفية صورة';
+                indicator.classList.add('image-active');
+                break;
+
+            default:
+                icon.textContent = '';
+                text.textContent = '';
             }
         }
 
