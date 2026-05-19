@@ -131,7 +131,7 @@
         }
 
         .score-display {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--accent-color);
             font-weight: 700;
             display: flex;
@@ -140,7 +140,7 @@
         }
 
         .progress-text {
-            font-size: 11px;
+            font-size: 14px;
             color: var(--primary-color);
             font-weight: 600;
         }
@@ -148,22 +148,23 @@
         /* Controls - Top Right */
         .controls-container {
             position: absolute;
-            top: 30px;
+            top: 40px;
             right: 12px;
             display: flex;
             flex-direction: column;
             gap: 6px;
             z-index: 100;
+            
         }
 
         .control-btn {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: 64%;
             background: var(--bg-card);
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
@@ -193,7 +194,7 @@
             background: var(--bg-card);
             border: 2px solid var(--secondary-color);
             color: var(--secondary-color);
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
             z-index: 100;
             transition: all 0.3s ease;
@@ -273,8 +274,8 @@
             left: 20px;
             right: 20px;
             bottom: 70px; /* Space for indicators + nav buttons */
-            overflow-y: auto;
-            overflow-x: hidden;
+            /* overflow-y: auto;
+            overflow-x: hidden; */
             padding-bottom: 15px;
         }
 
@@ -303,8 +304,12 @@
 
         .game-logo {
             font-size: 52px;
-            margin-bottom: 12px;
+            margin-bottom: -21px;
             animation: bounce 2s infinite;
+        }
+        .img-logo {
+            max-height: 70px;
+            margin-bottom: -3px; 
         }
 
         @keyframes bounce {
@@ -332,13 +337,15 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            max-width: 700px;
+            /* max-width: 700px; */
+            width: 730px;
+            height: 395px;
         }
 
         .menu-card {
             background: var(--bg-card);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
+            border-radius: 100px;
             padding: 20px 16px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -353,19 +360,19 @@
 
         .menu-icon {
             font-size: 38px;
-            margin-bottom: 8px;
+            margin-bottom: -9px;
             display: block;
         }
 
         .menu-title {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 6px;
             color: var(--primary-color);
         }
 
         .menu-desc {
-            font-size: 12px;
+            font-size: 15px;
             color: var(--text-secondary);
             line-height: 1.5;
         }
@@ -460,7 +467,7 @@
         /* Slide Indicators - Positioned to not overlap content */
         .slide-indicators-wrapper {
             position: absolute;
-            bottom: 52px;
+            bottom: 7px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
@@ -1223,7 +1230,7 @@
         <div class="page active" id="homePage">
             <div class="page-content-wrapper">
                 <div class="home-page-content">
-                    <div class="game-logo">🛡️</div>
+                    <div class="game-logo"><img class="img-logo" src="shield(1).png"></div>
                     <h1 class="game-title">مغامرات الأمن السيبراني</h1>
                     <p class="game-subtitle">رحلة تعليمية تفاعلية في عالم الحماية الرقمية</p>
                     <div class="menu-grid">
